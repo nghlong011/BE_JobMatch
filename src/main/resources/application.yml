@@ -1,0 +1,24 @@
+spring:
+  application:
+    name: jobmatch
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://203.145.47.68:3308/JOB_MATCH?createDatabaseIfNotExist=true
+    username: root
+    password: 1
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+      naming:
+        implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyJpaImpl
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    show-sql: true
+
+#JWT configuration
+jwt:
+  secret: dev123#@!
+  expiresIn: 60000000000
+
+server:
+  port: 8088
