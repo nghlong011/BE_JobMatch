@@ -21,6 +21,6 @@ public class SkillEntity {
     private String exp;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "PROFILE_ID")
+    @JoinColumn(name = "USER_ID")
     private ProfileEntity profileEntity;
 }

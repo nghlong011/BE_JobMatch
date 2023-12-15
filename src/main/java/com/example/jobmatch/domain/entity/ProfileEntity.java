@@ -11,12 +11,18 @@ import lombok.Setter;
 public class ProfileEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "PROFILE_ID")
+    @Column(name = "USER_ID")
     private Integer profileId;
 
-    @OneToOne(mappedBy = "profileEntity")
-    @PrimaryKeyJoinColumn(name = "USER_ID")
+//    @OneToOne(mappedBy = "profileEntity")
+//    @PrimaryKeyJoinColumn(name = "USER_ID")
+//    private UserEntity userEntity;
+
+    @OneToOne
+    @MapsId
+    @JoinColumn(name = "USER_ID")
     private UserEntity userEntity;
+
 
     @Column(name = "EDUCATION")
     private String education;

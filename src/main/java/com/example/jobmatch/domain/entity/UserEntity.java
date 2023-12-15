@@ -47,8 +47,13 @@ public class UserEntity {
     private String token;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "PROFILE_ID", referencedColumnName = "PROFILE_ID")
+    @JoinColumn(name = "COMPANY_ID", referencedColumnName = "COMPANY_ID")
+    private CompanyEntity companyEntity;
+
+    @OneToOne(mappedBy = "userEntity", cascade = CascadeType.ALL)
+    @PrimaryKeyJoinColumn
     private ProfileEntity profileEntity;
+
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "ROLE_ID")
