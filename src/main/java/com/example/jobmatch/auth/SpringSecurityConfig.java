@@ -39,7 +39,8 @@ public class SpringSecurityConfig {
                                 "user/register",
                                 "user/login",
                                 "job/**",
-                                "company/**"
+                                "company/**",
+                                "profile/**"
                         )
                         .permitAll()
                         .anyRequest()

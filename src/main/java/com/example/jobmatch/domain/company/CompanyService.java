@@ -2,9 +2,7 @@ package com.example.jobmatch.domain.company;
 
 import com.example.jobmatch.domain.company.dto.request.CompanyRequest;
 import com.example.jobmatch.domain.entity.CompanyEntity;
-import com.example.jobmatch.domain.entity.JobsEntity;
 import com.example.jobmatch.domain.entity.UserEntity;
-import com.example.jobmatch.domain.job.dto.request.CreateJobsRequest;
 import com.example.jobmatch.domain.user.UserRepo;
 import com.example.jobmatch.respon.Respon;
 import com.example.jobmatch.seeder.RegisterSeeder;
@@ -51,9 +49,14 @@ public class CompanyService {
         }
     }
 
-    public Respon update(Integer companyId, CompanyRequest request) {
+    public Respon update(Principal principal, CompanyRequest request) {
         try {
-            CompanyEntity companyEntity = companyRepo.findById(companyId).get();
+            CompanyEntity companyEntity;
+            if (principal == null) {
+                companyEntity = userRepo.findByEmail(RegisterSeeder.email).getCompanyEntity();
+            }else {
+                companyEntity = userRepo.findByEmail(principal.getName()).getCompanyEntity();
+            }
             modelMapper.map(request, companyEntity);
             companyRepo.save(companyEntity);
             return new Respon<>("Chỉnh sửa thông tin công ty thành công");

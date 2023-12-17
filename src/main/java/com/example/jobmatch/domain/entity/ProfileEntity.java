@@ -15,15 +15,10 @@ public class ProfileEntity {
     @Column(name = "USER_ID")
     private Integer profileId;
 
-//    @OneToOne(mappedBy = "profileEntity")
-//    @PrimaryKeyJoinColumn(name = "USER_ID")
-//    private UserEntity userEntity;
-
     @OneToOne
     @MapsId
     @JoinColumn(name = "USER_ID")
     private UserEntity userEntity;
-
 
     @Column(name = "EDUCATION")
     private String education;
