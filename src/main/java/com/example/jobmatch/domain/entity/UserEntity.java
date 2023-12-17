@@ -54,8 +54,7 @@ public class UserEntity {
     @PrimaryKeyJoinColumn
     private ProfileEntity profileEntity;
 
-
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ROLE_ID")
     private RoleEntity roleEntity;
 }

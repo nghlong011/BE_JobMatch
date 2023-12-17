@@ -4,13 +4,18 @@ import io.jsonwebtoken.*;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
 import java.io.Serializable;
+import java.security.Principal;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.Iterator;
 
 @Component
 public class JwtUtility implements Serializable {
@@ -26,6 +31,7 @@ public class JwtUtility implements Serializable {
         return Jwts.builder()
                 .setSubject(userName)
                 .setIssuedAt(now)
+                .setId(userDetails().getAuthorities().iterator().next().getAuthority())
                 .setExpiration(new Date((new Date()).getTime() + Long.valueOf(expiresIn)))
                 .signWith(SignatureAlgorithm.HS512, secret)
                 .compact();

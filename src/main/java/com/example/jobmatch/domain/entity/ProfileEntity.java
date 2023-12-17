@@ -1,5 +1,6 @@
 package com.example.jobmatch.domain.entity;
 
+import com.example.jobmatch.domain.entity.UserEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
