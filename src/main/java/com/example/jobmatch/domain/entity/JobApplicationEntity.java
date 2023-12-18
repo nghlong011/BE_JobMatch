@@ -7,20 +7,21 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-@Table(name = "JOB_APPLICATION")
+@Table(name = "JOBS_APPLICATION")
 public class JobApplicationEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "JOBAPP_ID")
-    private Integer jobAppId;
+    @EmbeddedId
+    private JobApplicationId id;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "USER_ID")
-    private UserEntity user;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "JOB_ID")
-    private JobsEntity jobs;
+//    @Id
+//    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+//    @JoinColumn(name = "USER_ID")
+//    private UserEntity user;
+//
+//    @Id
+//    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+//    @JoinColumn(name = "JOB_ID")
+//    private JobsEntity jobs;
 
     @Column(name = "CONTENT")
     private String content;

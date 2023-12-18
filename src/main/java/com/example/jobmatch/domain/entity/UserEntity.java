@@ -2,14 +2,18 @@ package com.example.jobmatch.domain.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Getter
 @Setter
 @Table(name = "USER")
+@NoArgsConstructor
 public class UserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -57,4 +61,18 @@ public class UserEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ROLE_ID")
     private RoleEntity roleEntity;
+
+    @OneToMany(mappedBy = "id.user", cascade = CascadeType.ALL)
+    private Set<JobApplicationEntity> jobApplications = new HashSet<>();
+
+    public UserEntity(Integer userId, String email, String name, String phone, String address, Boolean gender, Date dob, String avatar){
+        this.userId = userId;
+        this.email = email;
+        this.name = name;
+        this.phone = phone;
+        this.address = address;
+        this.gender = gender;
+        this.dob = dob;
+        this.avatar = avatar;
+    }
 }

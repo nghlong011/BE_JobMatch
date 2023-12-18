@@ -30,10 +30,10 @@ public class JobsService {
             if (principal == null) {
                 userEntity = userRepo.findByEmail(RegisterSeeder.email);
                 jobsEntity.setCompanyEntity(userEntity.getCompanyEntity());
-                jobsEntity.setUsersEntity(userEntity);
+//                jobsEntity.setUsersEntity(userEntity);
             } else {
                 userEntity = userRepo.findByEmail(principal.getName());
-                jobsEntity.setUsersEntity(userEntity);
+//                jobsEntity.setUsersEntity(userEntity);
                 jobsEntity.setCompanyEntity(userEntity.getCompanyEntity());
             }
             jobsRepo.save(jobsEntity);

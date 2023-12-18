@@ -32,11 +32,6 @@ public class JobsEntity {
 
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "USER_ID")
-    private UserEntity usersEntity;
-
-    @JsonIgnore
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "COMPANY_ID")
     private CompanyEntity companyEntity;
 
@@ -69,4 +64,7 @@ public class JobsEntity {
             inverseJoinColumns = @JoinColumn(name = "CATEGORY_ID")
     )
     private Set<CategoryEntity> categoryEntities = new HashSet<>();
+
+    @OneToMany(mappedBy = "id.job", cascade = CascadeType.ALL)
+    private Set<JobApplicationEntity> jobApplications = new HashSet<>();
 }

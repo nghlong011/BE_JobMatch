@@ -41,8 +41,8 @@ public class JobApplicationService {
             JobsEntity jobsEntity = jobsRepo.findById(jobApplicationRequest.getJobId()).get();
             JobApplicationEntity jobApplicationEntity = new JobApplicationEntity();
             modelMapper.map(jobApplicationRequest, jobApplicationEntity);
-            jobApplicationEntity.setUser(userEntity);
-            jobApplicationEntity.setJobs(jobsEntity);
+//            jobApplicationEntity.setUser(userEntity);
+//            jobApplicationEntity.setJobs(jobsEntity);
             jobApplicationRepo.save(jobApplicationEntity);
             return new Respon<>("Ứng tuyển thành công");
         } catch (Exception e) {
@@ -53,10 +53,10 @@ public class JobApplicationService {
     public Respon getUserHaventApply(Integer jobId, int page, int limit) {
         try {
             Pageable pageable = PageRequest.of(page, limit);
-            List<UserEntity> listUser = jobApplicationRepo.getUserHaventApply(jobId);
-            return new Respon<>("Lấy danh sách thành công",listUser);
+//            List<UserEntity> listUser = jobApplicationRepo.findById(jobId).get();
+            return new Respon<>("Lấy danh sách thành công");
         } catch (Exception e) {
-            return new Respon<>("Lấy danh sách thất bại");
+            return new Respon<>("Lấy danh sách thất bại"+ e);
         }
     }
 }

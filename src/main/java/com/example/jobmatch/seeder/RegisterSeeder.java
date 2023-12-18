@@ -48,7 +48,7 @@ public class RegisterSeeder {
         JobsEntity jobsEntity = new JobsEntity();
         if (!jobsRepo.existsById(1)) {
             jobsEntity.setCompanyEntity(companyEntity);
-            jobsEntity.setUsersEntity(userEntity);
+//            jobsEntity.setUsersEntity(userEntity);
             jobsEntity.setTitle(jobs);
             jobsRepo.save(jobsEntity);
         }
