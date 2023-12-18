@@ -22,3 +22,9 @@ jwt:
 
 server:
   port: 8088
+
+amazonProperties:
+  endpointUrl: https://s3.us-east-1.amazonaws.com
+  accessKey: AKIAWY6XIXHBSY24NWHA
+  secretKey: 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
+  bucketName: minhtest123

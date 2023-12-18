@@ -18,6 +18,11 @@ public class JobsController {
         return ResponseEntity.ok(jobsService.createJob(principal, request));
     }
 
+    @GetMapping("/get")
+    public ResponseEntity get() {
+        return ResponseEntity.ok(jobsService.getListJob());
+    }
+
     @GetMapping("/delete/{jobId}")
     public ResponseEntity delete( @PathVariable("jobId") Integer jobId) {
         return ResponseEntity.ok(jobsService.deleteJob(jobId));

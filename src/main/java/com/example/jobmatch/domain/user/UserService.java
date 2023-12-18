@@ -2,6 +2,7 @@ package com.example.jobmatch.domain.user;
 
 import com.example.jobmatch.auth.JwtUtility;
 import com.example.jobmatch.domain.entity.UserEntity;
+import com.example.jobmatch.domain.user.request.ChangePasswordRequest;
 import com.example.jobmatch.domain.user.request.LoginRequest;
 import com.example.jobmatch.domain.user.request.RegisterUserRequest;
 import com.example.jobmatch.domain.user.response.LoginResponse;
@@ -19,6 +20,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Component;
+
+import java.security.Principal;
 
 @Component
 public class UserService {
@@ -82,6 +85,21 @@ public class UserService {
             return new Respon<>("Đăng xuất thành công");
         } catch (Exception e) {
             return new Respon<>("Thất bại");
+        }
+    }
+
+
+    public Respon changePassword(Principal principal, ChangePasswordRequest changePasswordRequest) {
+        try {
+            UserEntity userEntity = userRepo.findByEmail(principal.getName());
+            if(!passwordEncoder.matches(changePasswordRequest.getOldPassword(), userEntity.getPassword())){
+                return new Respon<>("Sai mật khẩu cũ");
+            }
+            userEntity.setPassword(passwordEncoder.encode(changePasswordRequest.getNewPassword()));
+            userRepo.save(userEntity);
+            return new Respon<>("Đổi mật khẩu thành công");
+        } catch (Exception e) {
+            return new Respon<>("Đổi mật khẩu thất bại");
         }
     }
 }

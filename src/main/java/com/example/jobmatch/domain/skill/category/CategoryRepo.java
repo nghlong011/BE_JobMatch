@@ -1,4 +1,4 @@
-package com.example.jobmatch.domain.category;
+package com.example.jobmatch.domain.skill.category;
 
 import com.example.jobmatch.domain.entity.CategoryEntity;
 import org.springframework.data.jpa.repository.JpaRepository;

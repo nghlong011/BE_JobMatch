@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.security.Principal;
+import java.util.List;
 
 @Component
 public class JobsService {
@@ -60,6 +61,16 @@ public class JobsService {
             return new Respon<>("Chỉnh sửa job thành công");
         } catch (Exception e) {
             return new Respon<>("Chỉnh sửa job thất bại");
+        }
+    }
+
+
+    public Respon getListJob() {
+        try {
+            List<JobsEntity> listJob = jobsRepo.findAll();
+            return new Respon<>("Lấy thông tin job thành công", listJob);
+        } catch (Exception e) {
+            return new Respon<>("Lấy thông tin job thất bại");
         }
     }
 }
