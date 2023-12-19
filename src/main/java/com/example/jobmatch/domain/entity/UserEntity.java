@@ -5,9 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Getter
@@ -62,8 +60,8 @@ public class UserEntity {
     @JoinColumn(name = "ROLE_ID")
     private RoleEntity roleEntity;
 
-    @OneToMany(mappedBy = "id.user", cascade = CascadeType.ALL)
-    private Set<JobApplicationEntity> jobApplications = new HashSet<>();
+    @OneToMany(mappedBy = "userEntity",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<JobApplicationEntity> jobApplicationEntities = new ArrayList<>();
 
     public UserEntity(Integer userId, String email, String name, String phone, String address, Boolean gender, Date dob, String avatar){
         this.userId = userId;

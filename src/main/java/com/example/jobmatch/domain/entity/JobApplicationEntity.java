@@ -9,19 +9,16 @@ import lombok.Setter;
 @Setter
 @Table(name = "JOBS_APPLICATION")
 public class JobApplicationEntity {
-    @EmbeddedId
-    private JobApplicationId id;
+    @Id
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "USER_ID")
+    private UserEntity userEntity;
 
+    @Id
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "JOB_ID")
+    private JobsEntity jobsEntity;
 
-//    @Id
-//    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-//    @JoinColumn(name = "USER_ID")
-//    private UserEntity user;
-//
-//    @Id
-//    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-//    @JoinColumn(name = "JOB_ID")
-//    private JobsEntity jobs;
 
     @Column(name = "CONTENT")
     private String content;

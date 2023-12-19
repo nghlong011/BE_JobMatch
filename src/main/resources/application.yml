@@ -28,3 +28,7 @@ amazonProperties:
   accessKey: AKIAWY6XIXHBSY24NWHA
   secretKey: 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
   bucketName: minhtest123
+
+part:
+  image: images/
+  pdf: pdf/

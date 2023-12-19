@@ -1,10 +1,12 @@
 package com.example.jobmatch.domain.upload;
+
 import com.amazonaws.Response;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.AmazonS3Exception;
 import com.amazonaws.services.s3.model.Bucket;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.example.jobmatch.respon.Respon;
+import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -14,6 +16,10 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.List;
 
 @Service
@@ -25,6 +31,16 @@ public class UploadService {
 
     @Value("${amazonProperties.endpointUrl}")
     private String endpointUrl;
+
+    @Value("${part.image}")
+    private String partImages;
+
+    private Path root;
+
+    @PostConstruct
+    private void init() {
+        root = Paths.get(partImages);
+    }
 
     @Autowired
     private AmazonS3 s3Client;
@@ -38,12 +54,27 @@ public class UploadService {
         }
         return convertedFile;
     }
+
     public Respon<String> uploadFile(MultipartFile file) {
-        File fileObj = convertMultiPartFileToFile(file);
-        String fileName = System.currentTimeMillis() + "_" + file.getOriginalFilename();
-        s3Client.putObject(new PutObjectRequest(bucketName, fileName, fileObj));
-        fileObj.delete();
-        return new Respon<String>("Success", endpointUrl + "/" + bucketName + "/" + fileName.replaceAll(" ",""));
+//        File fileObj = convertMultiPartFileToFile(file);
+//        String fileName = System.currentTimeMillis() + "_" + file.getOriginalFilename();
+//        s3Client.putObject(new PutObjectRequest(bucketName, fileName, fileObj));
+//        fileObj.delete();
+//        return new Respon<String>("Success", endpointUrl + "/" + bucketName + "/" + fileName.replaceAll(" ",""));
+
+
+        try {
+            if (!Files.exists(root)) {
+                Files.createDirectory(root);
+            }
+            String fileName = file.getOriginalFilename();
+
+            Files.copy(file.getInputStream(), Paths.get(partImages + fileName),
+                    StandardCopyOption.REPLACE_EXISTING);
+            return new Respon<String>("Upload thành công", partImages + fileName);
+        } catch (IOException e) {
+            return new Respon<String>("Upload thất bại");
+        }
     }
 
     public Respon<?> deleteFile(String fileName) {
@@ -51,7 +82,7 @@ public class UploadService {
         return new Respon<>("Success");
     }
 
-    public Respon<?> createBucket(String name){
+    public Respon<?> createBucket(String name) {
         if (s3Client.doesBucketExistV2(name)) {
             return new Respon<>("This bucket already exist");
         } else {
@@ -64,7 +95,7 @@ public class UploadService {
         }
     }
 
-    public Respon<?> getListBucket(){
+    public Respon<?> getListBucket() {
         List<Bucket> buckets = s3Client.listBuckets();
         return new Respon<List<Bucket>>("Get list bucket success");
     }

@@ -16,6 +16,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
 
 @Component
@@ -28,9 +29,6 @@ public class JobApplicationService {
     private JobsRepo jobsRepo;
 
     @Autowired
-    private JobApplicationRepo jobApplicationRepo;
-
-    @Autowired
     private CompanyRepo companyRepo;
 
     @Autowired
@@ -41,9 +39,13 @@ public class JobApplicationService {
             JobsEntity jobsEntity = jobsRepo.findById(jobApplicationRequest.getJobId()).get();
             JobApplicationEntity jobApplicationEntity = new JobApplicationEntity();
             modelMapper.map(jobApplicationRequest, jobApplicationEntity);
-//            jobApplicationEntity.setUser(userEntity);
-//            jobApplicationEntity.setJobs(jobsEntity);
-            jobApplicationRepo.save(jobApplicationEntity);
+            jobApplicationEntity.setUserEntity(userEntity);
+            jobApplicationEntity.setJobsEntity(jobsEntity);
+            List<JobApplicationEntity> jobApplicationEntityList = new ArrayList<>();
+            jobApplicationEntityList.add(jobApplicationEntity);
+            userEntity.setJobApplicationEntities(jobApplicationEntityList);
+            jobsRepo.save(jobsEntity);
+            userRepo.save(userEntity);
             return new Respon<>("Ứng tuyển thành công");
         } catch (Exception e) {
             return new Respon<>("Ứng tuyển thất bại");

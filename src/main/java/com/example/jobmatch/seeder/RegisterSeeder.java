@@ -44,13 +44,7 @@ public class RegisterSeeder {
             userEntity.setEmail(email);
             userEntity.setRoleEntity(roleRepo.findByRoleName(RoleEnum.ADMIN.getRoleName()));
             userEntity.setCompanyEntity(companyEntity);
-        }
-        JobsEntity jobsEntity = new JobsEntity();
-        if (!jobsRepo.existsById(1)) {
-            jobsEntity.setCompanyEntity(companyEntity);
-//            jobsEntity.setUsersEntity(userEntity);
-            jobsEntity.setTitle(jobs);
-            jobsRepo.save(jobsEntity);
+            userRepo.save(userEntity);
         }
     }
 }

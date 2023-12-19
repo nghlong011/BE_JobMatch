@@ -1,24 +1,12 @@
 package com.example.jobmatch.domain.entity;
 
-import com.example.jobmatch.domain.entity.CategoryEntity;
-import com.example.jobmatch.domain.entity.CompanyEntity;
-import com.example.jobmatch.domain.entity.UserEntity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Getter
@@ -65,6 +53,6 @@ public class JobsEntity {
     )
     private Set<CategoryEntity> categoryEntities = new HashSet<>();
 
-    @OneToMany(mappedBy = "id.job", cascade = CascadeType.ALL)
-    private Set<JobApplicationEntity> jobApplications = new HashSet<>();
+    @OneToMany(mappedBy = "jobsEntity",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<JobApplicationEntity> jobApplicationEntities = new ArrayList<>();
 }
