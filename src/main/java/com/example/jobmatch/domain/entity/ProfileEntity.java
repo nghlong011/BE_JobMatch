@@ -10,12 +10,13 @@ import lombok.Setter;
 @Table(name = "PROFILE")
 public class ProfileEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(generator = "generator")
     @Column(name = "USER_ID")
     private Integer profileId;
 
     @OneToOne
-    @MapsId
+//    @MapsId
+    @PrimaryKeyJoinColumn
     @JoinColumn(name = "USER_ID")
     private UserEntity userEntity;
 

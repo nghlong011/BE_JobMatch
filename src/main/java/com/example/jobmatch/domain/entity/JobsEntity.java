@@ -36,9 +36,11 @@ public class JobsEntity {
     private String location;
 
     @CreationTimestamp
+    @Temporal(TemporalType.DATE)
     @Column(name = "ANNOUCEMENT_DATE", updatable = false)
     private Date annoucementDate;
 
+    @Temporal(TemporalType.DATE)
     @Column(name = "EXPIRATION_DATE")
     private Date expirationDate;
 

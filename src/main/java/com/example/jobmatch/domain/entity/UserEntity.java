@@ -1,5 +1,6 @@
 package com.example.jobmatch.domain.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -48,6 +49,7 @@ public class UserEntity {
     @Column(name = "TOKEN")
     private String token;
 
+    @JsonIgnore
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "COMPANY_ID", referencedColumnName = "COMPANY_ID")
     private CompanyEntity companyEntity;
@@ -56,10 +58,12 @@ public class UserEntity {
     @PrimaryKeyJoinColumn
     private ProfileEntity profileEntity;
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ROLE_ID")
     private RoleEntity roleEntity;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "userEntity",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<JobApplicationEntity> jobApplicationEntities = new ArrayList<>();
 

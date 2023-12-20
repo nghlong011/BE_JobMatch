@@ -1,5 +1,6 @@
 package com.example.jobmatch.domain.job;
 
+import com.example.jobmatch.domain.company.CompanyRepo;
 import com.example.jobmatch.domain.entity.JobsEntity;
 import com.example.jobmatch.domain.entity.UserEntity;
 import com.example.jobmatch.domain.job.dto.request.CreateJobsRequest;
@@ -20,6 +21,8 @@ public class JobsService {
     private JobsRepo jobsRepo;
     @Autowired
     private UserRepo userRepo;
+    @Autowired
+    private CompanyRepo companyRepo;
     @Autowired
     private ModelMapper modelMapper;
 

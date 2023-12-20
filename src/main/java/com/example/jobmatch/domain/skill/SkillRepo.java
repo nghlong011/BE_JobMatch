@@ -9,6 +9,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface SkillRepo extends JpaRepository<SkillEntity, Integer> {
-    @Query(value = "select sk.* from skill sk where sk.user_id = :idUser")
+    @Query(value = "select sk.* from skill sk where sk.user_id = :idUser", nativeQuery = true)
     SkillEntity getSkillFromUserId(@Param("idUser") Integer idUser);
 }

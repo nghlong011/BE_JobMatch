@@ -54,9 +54,8 @@ public class JobApplicationService {
 
     public Respon getUserHaventApply(Integer jobId, int page, int limit) {
         try {
-            Pageable pageable = PageRequest.of(page, limit);
-            List<UserEntity> listUser = jobApplicationRepo.findById(jobId).get();
-            return new Respon<>("Lấy danh sách thành công");
+            List<UserEntity> listUser = userRepo.findUserByJobId(jobId);
+            return new Respon<>("Lấy danh sách thành công", listUser);
         } catch (Exception e) {
             return new Respon<>("Lấy danh sách thất bại"+ e);
         }
