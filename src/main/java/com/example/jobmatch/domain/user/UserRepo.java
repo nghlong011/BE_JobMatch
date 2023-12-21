@@ -12,14 +12,22 @@ public interface UserRepo extends JpaRepository<UserEntity, Integer> {
     UserEntity findByEmail(String email);
     Boolean existsByEmail(String email);
 
-    @Query(value = "SELECT DISTINCT u.* FROM USER u \n" +
-            "JOIN JOBS_APPLICATION ja ON ja.USER_ID = u.USER_ID\n" +
-            "JOIN JOBS j ON j.JOB_ID = ja.JOB_ID\n" +
-            "WHERE \n" +
-            "u.USER_ID NOT IN (\n" +
-            "SELECT USER.USER_ID FROM USER \n" +
-            "    JOIN COMPANY ON COMPANY.COMPANY_ID = USER.COMPANY_ID\n" +
+    @Query(value = "SELECT u.*\n" +
+            "FROM USER u\n" +
+            "JOIN JOBS_APPLICATION ja ON u.USER_ID = ja.USER_ID\n" +
+            "WHERE ja.JOB_ID = ?;\n", nativeQuery = true)
+    List<UserEntity> findUserByJobId(Integer jobId);
+
+
+    @Query(value = "SELECT u.*\n" +
+            "FROM USER u\n" +
+            "WHERE u.USER_ID NOT IN (\n" +
+            "    SELECT ja.USER_ID\n" +
+            "    FROM JOBS_APPLICATION ja\n" +
+            "    INNER JOIN JOBS j ON ja.JOB_ID = j.JOB_ID\n" +
+            "    INNER JOIN USER ON USER.COMPANY_ID = j.COMPANY_ID\n" +
+            "    WHERE USER.USER_ID = ?\n" +
             ")\n" +
-            "AND j.JOB_ID = ?", nativeQuery = true)
-    List<UserEntity> findUserByJobId(Integer id);
+            "AND u.COMPANY_ID IS NULL", nativeQuery = true)
+    List<UserEntity> findNonApplicants(Integer userId);
 }

@@ -52,12 +52,12 @@ public class JobApplicationService {
         }
     }
 
-    public Respon getUserHaventApply(Integer jobId, int page, int limit) {
+    public Respon getUserHaventApply(Integer jobId) {
         try {
             List<UserEntity> listUser = userRepo.findUserByJobId(jobId);
-            return new Respon<>("Lấy danh sách thành công", listUser);
+            return new Respon<>(String.format("Lấy danh sách ứng viên đã nộp đơn cho jobId = %s thành công", jobId), listUser);
         } catch (Exception e) {
-            return new Respon<>("Lấy danh sách thất bại"+ e);
+            return new Respon<>("Lấy danh sách thất bại: "+ e);
         }
     }
 }
