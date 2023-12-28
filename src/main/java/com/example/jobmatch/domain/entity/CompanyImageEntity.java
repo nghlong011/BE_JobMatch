@@ -1,5 +1,6 @@
 package com.example.jobmatch.domain.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -17,6 +18,7 @@ public class CompanyImageEntity {
     @Column(name = "LINK")
     private String link;
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "COMPANY_ID")
     private CompanyEntity companyEntity;

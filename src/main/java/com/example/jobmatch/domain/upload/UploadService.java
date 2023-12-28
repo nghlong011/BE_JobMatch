@@ -56,13 +56,6 @@ public class UploadService {
     }
 
     public Respon<String> uploadFile(MultipartFile file) {
-//        File fileObj = convertMultiPartFileToFile(file);
-//        String fileName = System.currentTimeMillis() + "_" + file.getOriginalFilename();
-//        s3Client.putObject(new PutObjectRequest(bucketName, fileName, fileObj));
-//        fileObj.delete();
-//        return new Respon<String>("Success", endpointUrl + "/" + bucketName + "/" + fileName.replaceAll(" ",""));
-
-
         try {
             if (!Files.exists(root)) {
                 Files.createDirectory(root);

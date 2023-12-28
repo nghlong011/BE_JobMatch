@@ -1,9 +1,12 @@
 package com.example.jobmatch.domain.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -19,7 +22,8 @@ public class CategoryEntity {
     @Column(name = "CATEGORY_NAME")
     private String categoryName;
 
+    @JsonIgnore
     @ManyToMany(mappedBy = "categoryEntities")
-    private Set<JobsEntity> jobsEntities;
+    private List<JobsEntity> jobsEntities = new ArrayList<>();
 
 }

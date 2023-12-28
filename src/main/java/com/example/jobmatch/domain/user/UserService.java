@@ -60,7 +60,7 @@ public class UserService {
     public Respon login(LoginRequest loginRequest) {
         try {
             Authentication authentication = authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassWord()));
+                    new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
             SecurityContextHolder.getContext().setAuthentication(authentication);
             String token = jwtUtility.generateToken(loginRequest.getEmail());
             UserEntity userEntity = userRepo.findByEmail(loginRequest.getEmail());

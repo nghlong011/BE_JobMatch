@@ -44,7 +44,8 @@ public class SpringSecurityConfig {
                                 "/upload",
                                 "/user/**",
                                 "/jobapp/**",
-                                "/category/**"
+                                "/category/**",
+                                "companyImage/**"
                         )
                         .permitAll()
                         .anyRequest()

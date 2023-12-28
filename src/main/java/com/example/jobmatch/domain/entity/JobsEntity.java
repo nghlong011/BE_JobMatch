@@ -47,13 +47,13 @@ public class JobsEntity {
     @Column(name = "WORK_EXPERIENCE")
     private String workExperience;
 
-    @JsonIgnore
+//    @JsonIgnore
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(name = "JOBS_CATEGORY",
             joinColumns = @JoinColumn(name = "JOB_ID"),
             inverseJoinColumns = @JoinColumn(name = "CATEGORY_ID")
     )
-    private Set<CategoryEntity> categoryEntities = new HashSet<>();
+    private List<CategoryEntity> categoryEntities = new ArrayList<>();
 
     @OneToMany(mappedBy = "jobsEntity",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<JobApplicationEntity> jobApplicationEntities = new ArrayList<>();

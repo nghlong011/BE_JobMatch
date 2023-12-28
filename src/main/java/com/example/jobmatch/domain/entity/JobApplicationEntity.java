@@ -19,7 +19,6 @@ public class JobApplicationEntity {
     @JoinColumn(name = "JOB_ID")
     private JobsEntity jobsEntity;
 
-
     @Column(name = "CONTENT")
     private String content;
 

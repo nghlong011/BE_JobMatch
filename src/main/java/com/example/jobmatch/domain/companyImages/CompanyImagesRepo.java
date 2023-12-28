@@ -1,4 +1,4 @@
-package com.example.jobmatch.domain.categoryImages;
+package com.example.jobmatch.domain.companyImages;
 
 import com.example.jobmatch.domain.entity.CompanyImageEntity;
 import org.springframework.data.jpa.repository.JpaRepository;

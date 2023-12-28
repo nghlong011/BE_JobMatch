@@ -32,4 +32,9 @@ public class JobsController {
     public ResponseEntity update( @PathVariable("jobId") Integer jobId, @RequestBody CreateJobsRequest request) {
         return ResponseEntity.ok(jobsService.updateJob(jobId, request));
     }
+
+    @GetMapping("/getJobFromEmail")
+    public ResponseEntity get(Principal principal) {
+        return ResponseEntity.ok(jobsService.getListJob(principal));
+    }
 }

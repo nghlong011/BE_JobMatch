@@ -3,6 +3,7 @@ spring:
     name: jobmatch
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
+#    url: jdbc:mysql://mysql-server:3306/JOB_MATCH?createDatabaseIfNotExist=true
     url: jdbc:mysql://203.145.47.68:3308/JOB_MATCH?createDatabaseIfNotExist=true
     username: root
     password: 1
@@ -21,7 +22,7 @@ jwt:
   expiresIn: 60000000000
 
 server:
-  port: 8088
+  port: 8081
 
 amazonProperties:
   endpointUrl: https://s3.us-east-1.amazonaws.com

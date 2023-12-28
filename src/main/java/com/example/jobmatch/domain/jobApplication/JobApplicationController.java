@@ -17,8 +17,8 @@ public class JobApplicationController {
         return ResponseEntity.ok(jobApplicationService.create(principal, jobApplicationRequest));
     }
 
-    @GetMapping("/{jobId}/getUserHaventApply")
-    public ResponseEntity getUserHaventApply(@PathVariable("jobId") Integer jobId, @RequestParam(value="page", defaultValue = "0", required = false) int page, @RequestParam(value="limit", defaultValue = "20", required = false) int limit) {
-        return ResponseEntity.ok(jobApplicationService.getUserHaventApply(jobId, page,limit));
+    @GetMapping("getUserHaventApply/{jobId}/")
+    public ResponseEntity getUserHaventApply(@PathVariable("jobId") Integer jobId) {
+        return ResponseEntity.ok(jobApplicationService.getUserHaventApply(jobId));
     }
 }

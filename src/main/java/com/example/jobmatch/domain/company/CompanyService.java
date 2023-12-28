@@ -1,17 +1,23 @@
 package com.example.jobmatch.domain.company;
 
 import com.example.jobmatch.domain.company.dto.request.CompanyRequest;
+import com.example.jobmatch.domain.company.dto.response.JobsEntityDTO;
 import com.example.jobmatch.domain.entity.CompanyEntity;
+import com.example.jobmatch.domain.entity.JobsEntity;
 import com.example.jobmatch.domain.entity.UserEntity;
+import com.example.jobmatch.domain.job.JobsRepo;
 import com.example.jobmatch.domain.user.UserRepo;
 import com.example.jobmatch.respon.Respon;
 import com.example.jobmatch.seeder.RegisterSeeder;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.security.Principal;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class CompanyService {
@@ -21,11 +27,13 @@ public class CompanyService {
     private CompanyRepo companyRepo;
     @Autowired
     private UserRepo userRepo;
+    @Autowired
+    private JobsRepo jobsRepo;
 
     public Respon getAll() {
         try {
             List<CompanyEntity> companyEntities = companyRepo.findAll();
-            return new Respon<>("List copany", companyEntities);
+            return new Respon<>("List company", companyEntities);
         } catch (Exception e) {
             return new Respon<>("Thất bại");
         }

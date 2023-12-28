@@ -28,4 +28,7 @@ public class CompanyEntity {
 
     @OneToMany(mappedBy = "companyEntity",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<JobsEntity> JobsEntity = new ArrayList<>();
+
+    @OneToMany(mappedBy = "companyEntity",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<CompanyImageEntity> companyImageEntityList = new ArrayList<>();
 }
