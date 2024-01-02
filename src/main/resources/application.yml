@@ -24,12 +24,7 @@ jwt:
 server:
   port: 8081
 
-amazonProperties:
-  endpointUrl: https://s3.us-east-1.amazonaws.com
-  accessKey: AKIAWY6XIXHBSY24NWHA
-  secretKey: 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
-  bucketName: minhtest123
-
-part:
-  image: images/
-  pdf: pdf/
+host:
+  company: http://203.145.47.68:8090/uploads/companyImages/
+  job: http://203.145.47.68:8090/uploads/jobImages/
+  cv: http://203.145.47.68:8090/uploads/cv/

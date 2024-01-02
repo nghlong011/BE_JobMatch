@@ -1,4 +1,4 @@
-package com.example.jobmatch.domain.entity;
+package com.example.jobmatch.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -25,6 +25,9 @@ public class CompanyEntity {
 
     @Column(name = "LOCATION")
     private String location;
+
+    @Column(name = "LOGO")
+    private String logo;
 
     @OneToMany(mappedBy = "companyEntity",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<JobsEntity> JobsEntity = new ArrayList<>();

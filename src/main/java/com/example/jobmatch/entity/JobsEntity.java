@@ -1,4 +1,4 @@
-package com.example.jobmatch.domain.entity;
+package com.example.jobmatch.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
@@ -47,7 +47,7 @@ public class JobsEntity {
     @Column(name = "WORK_EXPERIENCE")
     private String workExperience;
 
-//    @JsonIgnore
+    @JsonIgnore
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(name = "JOBS_CATEGORY",
             joinColumns = @JoinColumn(name = "JOB_ID"),
@@ -57,4 +57,8 @@ public class JobsEntity {
 
     @OneToMany(mappedBy = "jobsEntity",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<JobApplicationEntity> jobApplicationEntities = new ArrayList<>();
+
+    @OneToMany(mappedBy = "jobsEntity",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<JobImageEntity> jobImageEntities = new ArrayList<>();
+
 }

@@ -1,4 +1,4 @@
-package com.example.jobmatch.domain.entity;
+package com.example.jobmatch.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;

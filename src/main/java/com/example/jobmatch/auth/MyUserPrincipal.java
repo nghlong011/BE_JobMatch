@@ -1,6 +1,6 @@
 package com.example.jobmatch.auth;
 
-import com.example.jobmatch.domain.entity.UserEntity;
+import com.example.jobmatch.entity.UserEntity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;

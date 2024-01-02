@@ -1,6 +1,5 @@
 package com.example.jobmatch.domain.skill;
 
-import com.example.jobmatch.domain.category.CategoryRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

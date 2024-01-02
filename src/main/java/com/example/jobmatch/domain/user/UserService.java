@@ -1,11 +1,15 @@
 package com.example.jobmatch.domain.user;
 
 import com.example.jobmatch.auth.JwtUtility;
-import com.example.jobmatch.domain.entity.UserEntity;
+import com.example.jobmatch.entity.JobApplicationEntity;
+import com.example.jobmatch.entity.UserEntity;
+import com.example.jobmatch.domain.jobApplication.JobAppRepo;
 import com.example.jobmatch.domain.user.request.ChangePasswordRequest;
 import com.example.jobmatch.domain.user.request.LoginRequest;
 import com.example.jobmatch.domain.user.request.RegisterUserRequest;
+import com.example.jobmatch.domain.user.request.GetUserRequest;
 import com.example.jobmatch.domain.user.response.LoginResponse;
+import com.example.jobmatch.domain.user.response.UserResponse;
 import com.example.jobmatch.respon.Respon;
 import com.example.jobmatch.respon.ResponError;
 import com.example.jobmatch.seeder.Enum.RoleEnum;
@@ -29,6 +33,8 @@ public class UserService {
     private UserRepo userRepo;
     @Autowired
     private RoleRepo roleRepo;
+    @Autowired
+    private JobAppRepo jobAppRepo;
     @Autowired
     private ModelMapper modelMapper;
     @Autowired
@@ -71,7 +77,7 @@ public class UserService {
             LoginResponse loginResponse = new LoginResponse(token);
             return new Respon<>("Đăng nhập thành công", loginResponse);
         } catch (Exception e) {
-            return new Respon<>("Đăng nhập thất bại");
+            return new Respon<>("Đăng nhập thất bại", e);
         }
     }
 
@@ -92,12 +98,25 @@ public class UserService {
     public Respon changePassword(Principal principal, ChangePasswordRequest changePasswordRequest) {
         try {
             UserEntity userEntity = userRepo.findByEmail(principal.getName());
-            if(!passwordEncoder.matches(changePasswordRequest.getOldPassword(), userEntity.getPassword())){
+            if (!passwordEncoder.matches(changePasswordRequest.getOldPassword(), userEntity.getPassword())) {
                 return new Respon<>("Sai mật khẩu cũ");
             }
             userEntity.setPassword(passwordEncoder.encode(changePasswordRequest.getNewPassword()));
             userRepo.save(userEntity);
             return new Respon<>("Đổi mật khẩu thành công");
+        } catch (Exception e) {
+            return new Respon<>("Đổi mật khẩu thất bại");
+        }
+    }
+
+    public Respon getById(GetUserRequest getUserRequest) {
+        try {
+            JobApplicationEntity applicationEntity = jobAppRepo.findById(getUserRequest.getIdJobApp()).get();
+            UserResponse userEntity = new UserResponse(applicationEntity.getUserEntity().getUserId(), applicationEntity.getUserEntity().getEmail(),
+                    applicationEntity.getUserEntity().getName(), applicationEntity.getUserEntity().getPhone(),
+                    applicationEntity.getUserEntity().getAddress(), applicationEntity.getUserEntity().getGender(),
+                    applicationEntity.getUserEntity().getDob(), applicationEntity.getUserEntity().getAvatar());
+            return new Respon<>("Tìm kiếm user thành công", userEntity);
         } catch (Exception e) {
             return new Respon<>("Đổi mật khẩu thất bại");
         }

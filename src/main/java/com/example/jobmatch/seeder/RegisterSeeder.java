@@ -1,11 +1,14 @@
 package com.example.jobmatch.seeder;
 
 import com.example.jobmatch.domain.company.CompanyRepo;
-import com.example.jobmatch.domain.entity.*;
 import com.example.jobmatch.domain.job.JobsRepo;
 import com.example.jobmatch.domain.profile.ProfileRepo;
 import com.example.jobmatch.domain.user.RoleRepo;
 import com.example.jobmatch.domain.user.UserRepo;
+import com.example.jobmatch.entity.CompanyEntity;
+import com.example.jobmatch.entity.ProfileEntity;
+import com.example.jobmatch.entity.RoleEntity;
+import com.example.jobmatch.entity.UserEntity;
 import com.example.jobmatch.seeder.Enum.RoleEnum;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;

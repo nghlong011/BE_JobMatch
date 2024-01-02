@@ -1,7 +1,7 @@
 package com.example.jobmatch.domain.skill;
 
-import com.example.jobmatch.domain.entity.SkillEntity;
-import com.example.jobmatch.domain.entity.UserEntity;
+import com.example.jobmatch.entity.SkillEntity;
+import com.example.jobmatch.entity.UserEntity;
 import com.example.jobmatch.domain.user.UserRepo;
 import com.example.jobmatch.respon.Respon;
 import org.modelmapper.ModelMapper;

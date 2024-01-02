@@ -2,9 +2,9 @@ package com.example.jobmatch.domain.job;
 
 import com.example.jobmatch.domain.category.CategoryRepository;
 import com.example.jobmatch.domain.company.CompanyRepo;
-import com.example.jobmatch.domain.entity.CategoryEntity;
-import com.example.jobmatch.domain.entity.CompanyEntity;
-import com.example.jobmatch.domain.entity.JobsEntity;
+import com.example.jobmatch.domain.company.dto.response.CompanyResponse;
+import com.example.jobmatch.domain.company.dto.response.Company_JobResponse;
+import com.example.jobmatch.entity.*;
 import com.example.jobmatch.domain.job.dto.request.CreateJobsRequest;
 import com.example.jobmatch.domain.user.UserRepo;
 import com.example.jobmatch.respon.Respon;
@@ -16,7 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
+import java.util.stream.Collectors;
 
 @Component
 public class JobsService {
@@ -80,10 +80,19 @@ public class JobsService {
         }
     }
 
-
-    public Respon getListJob() {
+    public Respon getListJob(Principal principal) {
         try {
-            List<JobsEntity> listJob = jobsRepo.findAll();
+            List<JobsEntity> listJob = userRepo.findByEmail(principal.getName()).getCompanyEntity().getJobsEntity();
+            return new Respon<>("Lấy thông tin job thành công", listJob);
+        } catch (Exception e) {
+            return new Respon<>("Lấy thông tin job thất bại");
+        }
+    }
+
+    public Respon getByTitle(String title) {
+        try {
+            List<JobsEntity> listJob = jobsRepo.findByTitle(title);
+            listJob.get(0).getCompanyEntity();
             return new Respon<>("Lấy thông tin job thành công", listJob);
         } catch (Exception e) {
             return new Respon<>("Lấy thông tin job thất bại");
@@ -91,12 +100,64 @@ public class JobsService {
     }
 
 
-    public Respon getListJob(Principal principal) {
+    public Respon getListJob() {
         try {
-            List<JobsEntity> listJob = userRepo.findByEmail(principal.getName()).getCompanyEntity().getJobsEntity();
-            return new Respon<>("Lấy thông tin job thành công", listJob);
+            List<CompanyEntity> companies = companyRepo.findAll();
+            List<CompanyResponse> companyDTOs = new ArrayList<>();
+
+            for (CompanyEntity company : companies) {
+                CompanyResponse companyDTO = new CompanyResponse();
+                companyDTO.setCompanyId(company.getCompanyId());
+                companyDTO.setCompanyName(company.getCompanyName());
+                companyDTO.setDescription(company.getDescription());
+                companyDTO.setLocation(company.getLocation());
+                companyDTO.setLogo(company.getLogo());
+
+                List<String> companyImageLinks = company.getCompanyImageEntityList()
+                        .stream()
+                        .map(CompanyImageEntity::getLink)
+                        .collect(Collectors.toList());
+
+                companyDTO.setCompanyImage(companyImageLinks);
+
+                List<Company_JobResponse> jobDTOs = company.getJobsEntity()
+                        .stream()
+                        .map(this::convertToJobDTO)
+                        .collect(Collectors.toList());
+
+                companyDTO.setJobs(jobDTOs);
+
+                companyDTOs.add(companyDTO);
+            }
+            return new Respon<>("List company", companyDTOs);
         } catch (Exception e) {
-            return new Respon<>("Lấy thông tin job thất bại");
+            return new Respon<>("Thất bại", e);
+        }
+    }
+
+
+    private Company_JobResponse convertToJobDTO(JobsEntity job) {
+        try {
+            Company_JobResponse jobDTO = new Company_JobResponse();
+            jobDTO.setJobId(job.getJobId());
+            jobDTO.setTitle(job.getTitle());
+            jobDTO.setDescription(job.getDescription());
+            jobDTO.setSalary(job.getSalary());
+            jobDTO.setLocation(job.getLocation());
+            jobDTO.setAnnoucementDate(job.getAnnoucementDate());
+            jobDTO.setExpirationDate(job.getExpirationDate());
+            jobDTO.setWorkExperience(job.getWorkExperience());
+
+            List<String> jobImageLinks = job.getJobImageEntities()
+                    .stream()
+                    .map(JobImageEntity::getLink)
+                    .collect(Collectors.toList());
+
+            jobDTO.setJobsImages(jobImageLinks);
+
+            return new Respon<>("List company", jobDTO).getData();
+        } catch (Exception e) {
+            return null;
         }
     }
 }

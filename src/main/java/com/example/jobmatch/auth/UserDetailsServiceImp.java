@@ -1,6 +1,6 @@
 package com.example.jobmatch.auth;
 
-import com.example.jobmatch.domain.entity.UserEntity;
+import com.example.jobmatch.entity.UserEntity;
 import com.example.jobmatch.domain.user.UserRepo;
 import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;

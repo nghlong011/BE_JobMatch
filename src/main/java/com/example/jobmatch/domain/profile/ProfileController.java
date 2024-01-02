@@ -1,6 +1,5 @@
 package com.example.jobmatch.domain.profile;
 
-import com.example.jobmatch.domain.company.dto.request.CompanyRequest;
 import com.example.jobmatch.domain.profile.dto.request.ProfileRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

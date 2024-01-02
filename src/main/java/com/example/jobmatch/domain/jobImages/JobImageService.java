@@ -1,20 +1,18 @@
 package com.example.jobmatch.domain.jobImages;
 
-import com.example.jobmatch.domain.entity.JobImageEntity;
+import com.example.jobmatch.auth.Upload;
+import com.example.jobmatch.entity.JobImageEntity;
 import com.example.jobmatch.domain.job.JobsRepo;
 import com.example.jobmatch.respon.Respon;
 import jakarta.annotation.PostConstruct;
-import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
-import java.util.UUID;
 
 @Component
 public class JobImageService {
@@ -22,10 +20,14 @@ public class JobImageService {
     private JobImagesRepo jobImagesRepo;
     @Autowired
     private JobsRepo jobsRepo;
+    @Autowired
+    private Upload upload;
     private Path root;
+    @Value("${host.job}")
+    private String host;
 
-    private final static String UPLOAD_WIN = "uploads/jobImages/";
-    private final static String UPLOAD_LINUX = "/uploads/jobImages/";
+    private final static String UPLOAD_WIN = "uploads/jobImages";
+    private final static String UPLOAD_LINUX = "/opt/uploads/jobImages";
 
     private boolean isWindows() {
         String os = System.getProperty("os.name");
@@ -51,20 +53,14 @@ public class JobImageService {
     public Respon createImages(JobImagesRequest jobImagesRequest) {
         try {
             for (MultipartFile files : jobImagesRequest.getFile()) {
-                String fileName = files.getOriginalFilename();
-                String extension = FilenameUtils.getExtension(fileName);
-                String newNameFile = (UUID.randomUUID()) + "." + extension;
-                Path target = Paths.get(this.root.toString() + newNameFile);
-
-                Files.copy(files.getInputStream(), Paths.get(this.root.toString() + fileName), StandardCopyOption.REPLACE_EXISTING);
-                Files.move(Paths.get(this.root.toString() + fileName), target);
+                String newNameFile = upload.createImages(files, this.root.toString());
                 JobImageEntity jobImageEntity = new JobImageEntity();
-                jobImageEntity.setLink(target.toString());
+                jobImageEntity.setLink(host + newNameFile);
                 jobImageEntity.setJobsEntity(jobsRepo.findById(jobImagesRequest.getJobId()).get());
                 jobImagesRepo.save(jobImageEntity);
             }
             return new Respon<String>("Upload thành công");
-        } catch (IOException e) {
+        } catch (Exception e) {
             return new Respon<String>("Upload thất bại");
         }
     }

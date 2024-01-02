@@ -1,7 +1,6 @@
 package com.example.jobmatch.domain.skill;
 
-import com.example.jobmatch.domain.entity.SkillEntity;
-import com.example.jobmatch.domain.entity.UserEntity;
+import com.example.jobmatch.entity.SkillEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

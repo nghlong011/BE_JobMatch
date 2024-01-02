@@ -1,7 +1,5 @@
 package com.example.jobmatch.domain.job.dto.request;
 
-import com.example.jobmatch.domain.entity.CompanyEntity;
-import com.example.jobmatch.domain.entity.UserEntity;
 import lombok.Getter;
 import lombok.Setter;
 

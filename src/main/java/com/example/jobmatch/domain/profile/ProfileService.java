@@ -1,9 +1,7 @@
 package com.example.jobmatch.domain.profile;
 
-import com.example.jobmatch.domain.company.dto.request.CompanyRequest;
-import com.example.jobmatch.domain.entity.CompanyEntity;
-import com.example.jobmatch.domain.entity.ProfileEntity;
-import com.example.jobmatch.domain.entity.UserEntity;
+import com.example.jobmatch.entity.ProfileEntity;
+import com.example.jobmatch.entity.UserEntity;
 import com.example.jobmatch.domain.profile.dto.request.ProfileRequest;
 import com.example.jobmatch.domain.user.UserRepo;
 import com.example.jobmatch.respon.Respon;

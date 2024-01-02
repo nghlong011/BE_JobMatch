@@ -1,6 +1,6 @@
 package com.example.jobmatch.domain.user;
 
-import com.example.jobmatch.domain.entity.RoleEntity;
+import com.example.jobmatch.entity.RoleEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

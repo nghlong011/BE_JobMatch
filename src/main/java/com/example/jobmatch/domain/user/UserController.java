@@ -3,6 +3,7 @@ package com.example.jobmatch.domain.user;
 import com.example.jobmatch.domain.user.request.ChangePasswordRequest;
 import com.example.jobmatch.domain.user.request.LoginRequest;
 import com.example.jobmatch.domain.user.request.RegisterUserRequest;
+import com.example.jobmatch.domain.user.request.GetUserRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -33,5 +34,10 @@ public class UserController {
     @GetMapping("/logout")
     public ResponseEntity logout() {
         return ResponseEntity.ok(userService.logout());
+    }
+
+    @GetMapping("/getUserByJobAppId")
+    public ResponseEntity getUserByJobAppId(@RequestBody GetUserRequest getUserRequest) {
+        return ResponseEntity.ok(userService.getById(getUserRequest));
     }
 }

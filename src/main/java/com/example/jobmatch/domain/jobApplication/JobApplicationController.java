@@ -13,11 +13,15 @@ public class JobApplicationController {
     @Autowired
     private JobApplicationService jobApplicationService;
     @PostMapping("/create")
-    public ResponseEntity create(Principal principal, @RequestBody JobApplicationRequest jobApplicationRequest) {
+    public ResponseEntity create(Principal principal, @ModelAttribute JobApplicationRequest jobApplicationRequest) {
         return ResponseEntity.ok(jobApplicationService.create(principal, jobApplicationRequest));
     }
+    @PostMapping("/update")
+    public ResponseEntity update(@ModelAttribute JobApplicationRequest jobApplicationRequest) {
+        return ResponseEntity.ok(jobApplicationService.update(jobApplicationRequest));
+    }
 
-    @GetMapping("getUserHaventApply/{jobId}/")
+    @GetMapping("/getUserHaventApply/{jobId}")
     public ResponseEntity getUserHaventApply(@PathVariable("jobId") Integer jobId) {
         return ResponseEntity.ok(jobApplicationService.getUserHaventApply(jobId));
     }

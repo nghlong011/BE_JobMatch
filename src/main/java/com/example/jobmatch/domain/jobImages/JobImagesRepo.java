@@ -1,6 +1,6 @@
 package com.example.jobmatch.domain.jobImages;
 
-import com.example.jobmatch.domain.entity.JobImageEntity;
+import com.example.jobmatch.entity.JobImageEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
