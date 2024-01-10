@@ -19,7 +19,7 @@ public class CompanyImageEntity {
     private String link;
 
     @JsonIgnore
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "COMPANY_ID")
     private CompanyEntity companyEntity;
 }

@@ -1,7 +1,8 @@
 package com.example.jobmatch.domain.company.dto.response;
 
-import com.example.jobmatch.entity.CompanyEntity;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.Date;
@@ -9,9 +10,10 @@ import java.util.List;
 
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class Company_JobResponse {
     private Integer jobId;
-    private CompanyEntity companyEntity;
     private String title;
     private String description;
     private String salary;

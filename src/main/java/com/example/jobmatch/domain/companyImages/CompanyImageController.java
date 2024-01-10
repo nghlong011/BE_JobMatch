@@ -13,7 +13,7 @@ public class CompanyImageController {
     @Autowired
     private CompanyImageService companyImageService;
     @PostMapping("/create")
-    @PreAuthorize("hasAnyRole('EMPLOYER')")
+    @PreAuthorize("hasAnyRole('EMPLOYER','ADMIN')")
     public ResponseEntity create(Principal principal, @ModelAttribute CompanyImageRequest companyImageRequest) {
         return ResponseEntity.ok(companyImageService.createImages(principal, companyImageRequest));
     }

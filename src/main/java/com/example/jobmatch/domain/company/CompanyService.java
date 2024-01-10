@@ -128,8 +128,18 @@ public class CompanyService {
                 userEntity = userRepo.findByEmail(RegisterSeeder.email);
                 userEntity.setCompanyEntity(companyEntity);
             } else {
-                String newNameFile = upload.createImages(request.getLogo(), this.root.toString());
-                companyEntity.setLogo(host + newNameFile);
+                if (!request.getLogo().isEmpty()){
+                    String newNameFile = upload.createImages(request.getLogo(), this.root.toString());
+                    companyEntity.setLogo(host + newNameFile);
+                }else {
+                    companyEntity.setLogo(null);
+                }
+                if (!request.getDescription().isEmpty()){
+                    String newNameFileDescription = upload.createImages(request.getDescription(), this.root.toString());
+                    companyEntity.setDescription(host + newNameFileDescription);
+                }else {
+                    companyEntity.setDescription(null);
+                }
                 userEntity = userRepo.findByEmail(principal.getName());
                 userEntity.setCompanyEntity(companyEntity);
             }
@@ -149,6 +159,18 @@ public class CompanyService {
                 companyEntity = userRepo.findByEmail(principal.getName()).getCompanyEntity();
             }
             modelMapper.map(request, companyEntity);
+            if (!request.getLogo().isEmpty()){
+                String newNameFile = upload.createImages(request.getLogo(), this.root.toString());
+                companyEntity.setLogo(host + newNameFile);
+            }else {
+                companyEntity.setLogo(null);
+            }
+            if (!request.getDescription().getResource().exists()){
+                String newNameFileDescription = upload.createImages(request.getDescription(), this.root.toString());
+                companyEntity.setDescription(host + newNameFileDescription);
+            }else {
+                companyEntity.setDescription(null);
+            }
             companyRepo.save(companyEntity);
             return new Respon<>("Chỉnh sửa thông tin công ty thành công");
         } catch (Exception e) {

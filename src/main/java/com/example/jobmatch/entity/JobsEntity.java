@@ -19,7 +19,7 @@ public class JobsEntity {
     private Integer jobId;
 
     @JsonIgnore
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "COMPANY_ID")
     private CompanyEntity companyEntity;
 
@@ -48,17 +48,17 @@ public class JobsEntity {
     private String workExperience;
 
     @JsonIgnore
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "JOBS_CATEGORY",
             joinColumns = @JoinColumn(name = "JOB_ID"),
             inverseJoinColumns = @JoinColumn(name = "CATEGORY_ID")
     )
     private List<CategoryEntity> categoryEntities = new ArrayList<>();
 
-    @OneToMany(mappedBy = "jobsEntity",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "jobsEntity", cascade = CascadeType.ALL)
     private List<JobApplicationEntity> jobApplicationEntities = new ArrayList<>();
 
-    @OneToMany(mappedBy = "jobsEntity",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "jobsEntity", cascade = CascadeType.ALL)
     private List<JobImageEntity> jobImageEntities = new ArrayList<>();
 
 }

@@ -19,5 +19,5 @@ public class RegisterUserRequest {
     private Boolean gender;
     private String activeCode;
     private Date dob;
-    private String avatar;
+    private String role;
 }

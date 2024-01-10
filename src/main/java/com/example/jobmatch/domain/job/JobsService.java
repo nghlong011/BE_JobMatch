@@ -1,5 +1,6 @@
 package com.example.jobmatch.domain.job;
 
+import com.example.jobmatch.auth.Upload;
 import com.example.jobmatch.domain.category.CategoryRepository;
 import com.example.jobmatch.domain.company.CompanyRepo;
 import com.example.jobmatch.domain.company.dto.response.CompanyResponse;
@@ -8,11 +9,16 @@ import com.example.jobmatch.entity.*;
 import com.example.jobmatch.domain.job.dto.request.CreateJobsRequest;
 import com.example.jobmatch.domain.user.UserRepo;
 import com.example.jobmatch.respon.Respon;
+import jakarta.annotation.PostConstruct;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
@@ -30,9 +36,23 @@ public class JobsService {
     private CategoryRepository categoryRepository;
     @Autowired
     private ModelMapper modelMapper;
+    @Autowired
+    private Upload upload;
+    private Path root;
+    @Value("${host.job}")
+    private String host;
+
+    private final static String UPLOAD_WIN = "uploads/jobImages";
+    private final static String UPLOAD_LINUX = "/opt/uploads/jobImages";
+
+    private boolean isWindows() {
+        String os = System.getProperty("os.name");
+        return os.startsWith("Windows");
+    }
 
     public Respon createJob(Principal principal, CreateJobsRequest request) {
         try {
+            this.root = Paths.get(isWindows() ? UPLOAD_WIN : UPLOAD_LINUX);
             JobsEntity jobsEntity = modelMapper.map(request, JobsEntity.class);
             CompanyEntity companyEntity;
             companyEntity = userRepo.findByEmail(principal.getName()).getCompanyEntity();
@@ -51,6 +71,12 @@ public class JobsService {
                     categoryEntityList.add(categoryEntity);
                     jobsEntity.setCategoryEntities(categoryEntityList);
                 }
+            }
+            if (!request.getDescription().isEmpty()){
+                String newNameFileDescription = upload.createImages(request.getDescription(), root.toString());
+                jobsEntity.setDescription(host + newNameFileDescription);
+            }else {
+                jobsEntity.setDescription(null);
             }
             jobsRepo.save(jobsEntity);
             return new Respon<>("Đăng tin thành công");
@@ -71,6 +97,7 @@ public class JobsService {
 
     public Respon updateJob(Integer jobId, CreateJobsRequest request) {
         try {
+            this.root = Paths.get(isWindows() ? UPLOAD_WIN : UPLOAD_LINUX);
             JobsEntity jobsEntity = jobsRepo.findById(jobId).get();
             modelMapper.map(request, jobsEntity);
             jobsRepo.save(jobsEntity);
@@ -158,6 +185,15 @@ public class JobsService {
             return new Respon<>("List company", jobDTO).getData();
         } catch (Exception e) {
             return null;
+        }
+    }
+
+    public Respon getJobApplyByUser(Principal principal) {
+        try {
+            List<JobsEntity> listUser = jobsRepo.getJobApplyByUser(principal.getName());
+            return new Respon<>("Lấy danh sách job đã ứng tuyển thành công", listUser);
+        } catch (Exception e) {
+            return new Respon<>("Lấy danh sách job đã ứng tuyển thất bại: " + e);
         }
     }
 }

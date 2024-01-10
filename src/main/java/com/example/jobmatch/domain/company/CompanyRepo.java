@@ -11,8 +11,6 @@ import java.util.List;
 public interface CompanyRepo extends JpaRepository<CompanyEntity, Integer> {
     Boolean existsByCompanyName(String companyName);
 
-    @Query(value = "SELECT COMPANY.* FROM COMPANY JOIN JOBS\n" +
-            "ON COMPANY.COMPANY_ID = JOBS.COMPANY_ID\n" +
-            "WHERE JOBS.TITLE LIKE %?%",nativeQuery = true)
+    @Query(value = "SELECT COMPANY.* FROM COMPANY JOIN JOBS ON COMPANY.COMPANY_ID = JOBS.COMPANY_ID WHERE JOBS.TITLE LIKE %?%",nativeQuery = true)
     List<CompanyEntity> findByTitle (String title);
 }

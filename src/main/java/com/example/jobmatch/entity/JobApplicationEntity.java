@@ -15,13 +15,12 @@ public class JobApplicationEntity {
     @Column(name = "JOBS_APPLICATION_ID")
     private Integer jobAppId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "USER_ID")
     @JsonIgnore
     private UserEntity userEntity;
 
-
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "JOB_ID")
     @JsonIgnore
     private JobsEntity jobsEntity;

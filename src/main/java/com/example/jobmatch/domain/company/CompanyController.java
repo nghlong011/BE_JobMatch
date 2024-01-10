@@ -18,13 +18,13 @@ public class CompanyController {
         return ResponseEntity.ok(companyService.getAll());
     }
     @PostMapping("/create")
-    @PreAuthorize("hasAnyRole('EMPLOYER')")
+    @PreAuthorize("hasAnyRole('EMPLOYER','ADMIN')")
     public ResponseEntity create(Principal principal, @ModelAttribute CompanyRequest companyRequest) {
         return ResponseEntity.ok(companyService.create(principal, companyRequest));
     }
 
     @PostMapping("/update")
-    @PreAuthorize("hasAnyRole('EMPLOYER')")
+    @PreAuthorize("hasAnyRole('EMPLOYER','ADMIN')")
     public ResponseEntity update(Principal principal, @RequestBody CompanyRequest companyRequest) {
         return ResponseEntity.ok(companyService.update(principal, companyRequest));
     }

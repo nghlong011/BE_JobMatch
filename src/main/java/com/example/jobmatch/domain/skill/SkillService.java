@@ -26,6 +26,7 @@ public class SkillService {
             SkillEntity skillEntity = new SkillEntity();
             modelMapper.map(skillRequest, skillEntity);
             skillEntity.setProfileEntity(userEntity.getProfileEntity());
+            skillRepo.save(skillEntity);
             return new Respon<>("Tạo skill thành công");
         } catch (Exception e) {
             return new Respon<>("Tạo skill thất bại");

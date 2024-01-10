@@ -68,20 +68,24 @@ public class JobApplicationService {
         try {
             UserEntity userEntity = userRepo.findByEmail(principal.getName());
             JobsEntity jobsEntity = jobsRepo.findById(jobApplicationRequest.getJobId()).get();
-            JobApplicationEntity jobApplicationEntity = new JobApplicationEntity();
-            modelMapper.map(jobApplicationRequest, jobApplicationEntity);
-            String newNameFile = upload.createImages(jobApplicationRequest.getContent(), this.root.toString());
-            jobApplicationEntity.setContent(host + newNameFile);
-            jobApplicationEntity.setUserEntity(userEntity);
-            jobApplicationEntity.setJobsEntity(jobsEntity);
-            List<JobApplicationEntity> jobApplicationEntityList = new ArrayList<>();
-            jobApplicationEntityList.add(jobApplicationEntity);
-            userEntity.setJobApplicationEntities(jobApplicationEntityList);
-            jobsRepo.save(jobsEntity);
-            userRepo.save(userEntity);
-            return new Respon<>("Ứng tuyển thành công");
-        } catch (Exception e) {
+
+            if (!jobAppRepo.existsByJobsEntityAndAndUserEntity(jobsEntity, userEntity)){
+                JobApplicationEntity jobApplicationEntity = new JobApplicationEntity();
+                modelMapper.map(jobApplicationRequest, jobApplicationEntity);
+                String newNameFile = upload.createImages(jobApplicationRequest.getContent(), this.root.toString());
+                jobApplicationEntity.setContent(host + newNameFile);
+                jobApplicationEntity.setUserEntity(userEntity);
+                jobApplicationEntity.setJobsEntity(jobsEntity);
+                List<JobApplicationEntity> jobApplicationEntityList = new ArrayList<>();
+                jobApplicationEntityList.add(jobApplicationEntity);
+                userEntity.setJobApplicationEntities(jobApplicationEntityList);
+                jobsRepo.save(jobsEntity);
+                userRepo.save(userEntity);
+                return new Respon<>("Ứng tuyển thành công");
+            }
             return new Respon<>("Ứng tuyển thất bại");
+        } catch (Exception e) {
+            return new Respon<>("Ứng tuyển thất bại: ", e);
         }
     }
 
@@ -110,4 +114,5 @@ public class JobApplicationService {
             return new Respon<>("Cập nhật trạng thái thất bại");
         }
     }
+
 }

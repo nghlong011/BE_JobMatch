@@ -2,6 +2,7 @@ package com.example.jobmatch.domain.job.dto.request;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Date;
 
@@ -9,7 +10,7 @@ import java.util.Date;
 @Setter
 public class CreateJobsRequest {
     private String title;
-    private String description;
+    private MultipartFile description;
     private String salary;
     private String location;
     private Date expirationDate;

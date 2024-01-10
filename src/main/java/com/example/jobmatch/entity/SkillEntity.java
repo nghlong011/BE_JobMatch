@@ -1,5 +1,6 @@
 package com.example.jobmatch.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -20,7 +21,8 @@ public class SkillEntity {
     @Column(name = "EXP")
     private String exp;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "USER_ID")
+    @JsonBackReference
     private ProfileEntity profileEntity;
 }

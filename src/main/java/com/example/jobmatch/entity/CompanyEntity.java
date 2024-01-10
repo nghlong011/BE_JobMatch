@@ -29,9 +29,9 @@ public class CompanyEntity {
     @Column(name = "LOGO")
     private String logo;
 
-    @OneToMany(mappedBy = "companyEntity",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "companyEntity", cascade = CascadeType.ALL)
     private List<JobsEntity> JobsEntity = new ArrayList<>();
 
-    @OneToMany(mappedBy = "companyEntity",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "companyEntity", cascade = CascadeType.ALL)
     private List<CompanyImageEntity> companyImageEntityList = new ArrayList<>();
 }

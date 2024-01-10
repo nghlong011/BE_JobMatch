@@ -8,7 +8,7 @@ import org.springframework.web.multipart.MultipartFile;
 @Setter
 public class CompanyRequest {
     private String companyName;
-    private String description;
+    private MultipartFile description;
     private String location;
     private MultipartFile logo;
 }

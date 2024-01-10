@@ -6,6 +6,7 @@ import com.example.jobmatch.domain.user.request.RegisterUserRequest;
 import com.example.jobmatch.domain.user.request.GetUserRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
@@ -27,16 +28,19 @@ public class UserController {
     }
 
     @PostMapping("/changePassword")
+    @PreAuthorize("hasAnyRole('JOB_SEEKER','ADMIN')")
     public ResponseEntity login(Principal principal, @RequestBody ChangePasswordRequest changePasswordRequest) {
         return ResponseEntity.ok(userService.changePassword(principal, changePasswordRequest));
     }
 
     @GetMapping("/logout")
+    @PreAuthorize("hasAnyRole('JOB_SEEKER','ADMIN')")
     public ResponseEntity logout() {
         return ResponseEntity.ok(userService.logout());
     }
 
     @GetMapping("/getUserByJobAppId")
+    @PreAuthorize("hasAnyRole('EMPLOYER','ADMIN')")
     public ResponseEntity getUserByJobAppId(@RequestBody GetUserRequest getUserRequest) {
         return ResponseEntity.ok(userService.getById(getUserRequest));
     }

@@ -38,15 +38,10 @@ public class SpringSecurityConfig {
                         .requestMatchers(
                                 "user/register",
                                 "user/login",
-                                "job/**",
-                                "profile/**",
-                                "/upload",
-                                "/user/**",
-                                "/jobapp/**",
-                                "/category/**",
-                                "companyImage/**",
-                                "uploads/**",
-                                "company/getCompanyByTitle/**"
+                                "company/getCompanyByTitle/**",
+                                "category/get/**",
+                                "job/getByTitle/**",
+                                "job/get"
                         )
                         .permitAll()
                         .anyRequest()

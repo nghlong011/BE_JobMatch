@@ -1,4 +1,4 @@
-package com.example.jobmatch.domain.category;
+package com.example.jobmatch.domain.category.dto.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

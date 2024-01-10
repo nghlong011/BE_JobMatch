@@ -19,7 +19,7 @@ public class JobImageEntity {
     private String link;
 
     @JsonIgnore
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "JOB_ID")
     private JobsEntity jobsEntity;
 }

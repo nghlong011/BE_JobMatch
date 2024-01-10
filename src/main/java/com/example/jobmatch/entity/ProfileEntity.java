@@ -1,8 +1,13 @@
 package com.example.jobmatch.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -10,13 +15,12 @@ import lombok.Setter;
 @Table(name = "PROFILE")
 public class ProfileEntity {
     @Id
-    @GeneratedValue(generator = "generator")
     @Column(name = "USER_ID")
     private Integer profileId;
 
     @OneToOne
-//    @MapsId
-    @PrimaryKeyJoinColumn
+    @MapsId
+    @JsonBackReference
     @JoinColumn(name = "USER_ID")
     private UserEntity userEntity;
 
@@ -37,4 +41,8 @@ public class ProfileEntity {
 
     @Column(name = "RESUME")
     private String resume;
+
+    @JsonManagedReference
+    @OneToMany(mappedBy = "profileEntity", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private List<SkillEntity> skillEntities = new ArrayList<>();
 }

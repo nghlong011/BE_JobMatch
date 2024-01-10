@@ -55,7 +55,7 @@ public class UserService {
             }
             UserEntity userEntity = modelMapper.map(registerUserRequest, UserEntity.class);
             userEntity.setPassword(passwordEncoder.encode(registerUserRequest.getPassword()));
-            userEntity.setRoleEntity(roleRepo.findByRoleName(RoleEnum.USER.getRoleName()));
+            userEntity.setRoleEntity(roleRepo.findByRoleName(registerUserRequest.getRole()));
             userRepo.save(userEntity);
             return new Respon<>("Đăng kí thành công");
         } catch (Exception e) {

@@ -15,8 +15,8 @@ public class JobsController {
     private JobsService jobsService;
 
     @PostMapping("/create")
-    @PreAuthorize("hasAnyRole('EMPLOYER')")
-    public ResponseEntity create(Principal principal, @RequestBody CreateJobsRequest request) {
+    @PreAuthorize("hasAnyRole('EMPLOYER','ADMIN')")
+    public ResponseEntity create(Principal principal, @ModelAttribute CreateJobsRequest request) {
         return ResponseEntity.ok(jobsService.createJob(principal, request));
     }
 
@@ -26,19 +26,19 @@ public class JobsController {
     }
 
     @GetMapping("/delete/{jobId}")
-    @PreAuthorize("hasAnyRole('EMPLOYER')")
+    @PreAuthorize("hasAnyRole('EMPLOYER','ADMIN')")
     public ResponseEntity delete( @PathVariable("jobId") Integer jobId) {
         return ResponseEntity.ok(jobsService.deleteJob(jobId));
     }
 
     @PostMapping("/update/{jobId}")
-    @PreAuthorize("hasAnyRole('EMPLOYER')")
-    public ResponseEntity update( @PathVariable("jobId") Integer jobId, @RequestBody CreateJobsRequest request) {
+    @PreAuthorize("hasAnyRole('EMPLOYER','ADMIN')")
+    public ResponseEntity update( @PathVariable("jobId") Integer jobId, @ModelAttribute CreateJobsRequest request) {
         return ResponseEntity.ok(jobsService.updateJob(jobId, request));
     }
 
     @GetMapping("/getJobFromEmail")
-    @PreAuthorize("hasAnyRole('EMPLOYER')")
+    @PreAuthorize("hasAnyRole('EMPLOYER','ADMIN')")
     public ResponseEntity get(Principal principal) {
         return ResponseEntity.ok(jobsService.getListJob(principal));
     }
@@ -47,8 +47,10 @@ public class JobsController {
     public ResponseEntity getByTitle(@PathVariable String title) {
         return ResponseEntity.ok(jobsService.getByTitle(title));
     }
-    @GetMapping("/getListJob")
-    public ResponseEntity getListJob() {
-        return ResponseEntity.ok(jobsService.getListJob());
+    @GetMapping("/getJobApplyByUser")
+    @PreAuthorize("hasAnyRole('JOB_SEEKER','ADMIN')")
+    public ResponseEntity getJobApplyByUser(Principal principal) {
+        return ResponseEntity.ok(jobsService.getJobApplyByUser(principal));
     }
+
 }

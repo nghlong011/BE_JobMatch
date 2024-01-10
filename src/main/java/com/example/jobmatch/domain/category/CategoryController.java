@@ -1,5 +1,6 @@
 package com.example.jobmatch.domain.category;
 
+import com.example.jobmatch.domain.category.dto.request.CategoryRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -29,8 +30,8 @@ public class CategoryController {
         return ResponseEntity.ok(categoryService.updateCategory(categoryId,categoryRequest));
     }
 
-    @GetMapping("/get")
-    public ResponseEntity get() {
-        return ResponseEntity.ok(categoryService.getCategory());
+    @GetMapping("/get/{categoryId}")
+    public ResponseEntity get(@PathVariable Integer categoryId) {
+        return ResponseEntity.ok(categoryService.getCategory(categoryId));
     }
 }
