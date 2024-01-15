@@ -72,7 +72,7 @@ public class JobsService {
                     jobsEntity.setCategoryEntities(categoryEntityList);
                 }
             }
-            if (!request.getDescription().isEmpty()){
+            if (request.getDescription() != null){
                 String newNameFileDescription = upload.createImages(request.getDescription(), root.toString());
                 jobsEntity.setDescription(host + newNameFileDescription);
             }else {

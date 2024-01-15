@@ -128,13 +128,13 @@ public class CompanyService {
                 userEntity = userRepo.findByEmail(RegisterSeeder.email);
                 userEntity.setCompanyEntity(companyEntity);
             } else {
-                if (!request.getLogo().isEmpty()){
+                if (request.getLogo() != null){
                     String newNameFile = upload.createImages(request.getLogo(), this.root.toString());
                     companyEntity.setLogo(host + newNameFile);
                 }else {
                     companyEntity.setLogo(null);
                 }
-                if (!request.getDescription().isEmpty()){
+                if (request.getDescription() != null){
                     String newNameFileDescription = upload.createImages(request.getDescription(), this.root.toString());
                     companyEntity.setDescription(host + newNameFileDescription);
                 }else {

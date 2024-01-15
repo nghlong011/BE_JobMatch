@@ -64,4 +64,18 @@ public class JobImageService {
             return new Respon<String>("Upload thất bại");
         }
     }
+
+    public Respon updateImages(Integer jobImageId, JobImagesRequest jobImagesRequest) {
+        try {
+            JobImageEntity jobImageEntity = jobImagesRepo.findById(jobImageId).get();
+            for (MultipartFile files : jobImagesRequest.getFile()) {
+                String newNameFile = upload.createImages(files, this.root.toString());
+                jobImageEntity.setLink(host + newNameFile);
+                jobImagesRepo.save(jobImageEntity);
+            }
+            return new Respon<String>("Update image job thành công");
+        } catch (Exception e) {
+            return new Respon<String>("Update image job thất bại");
+        }
+    }
 }

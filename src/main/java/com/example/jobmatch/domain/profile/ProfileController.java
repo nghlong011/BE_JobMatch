@@ -20,7 +20,7 @@ public class ProfileController {
     }
     @PostMapping("/update")
     @PreAuthorize("hasAnyRole('JOB_SEEKER','ADMIN')")
-    public ResponseEntity update(Principal principal, @RequestBody ProfileRequest profileRequest) {
+    public ResponseEntity update(Principal principal, @ModelAttribute ProfileRequest profileRequest) {
         return ResponseEntity.ok(profileService.update(principal, profileRequest));
     }
     @PostMapping("/get")

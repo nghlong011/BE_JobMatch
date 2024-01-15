@@ -35,9 +35,6 @@ public class UserEntity {
     @Column(name = "ADDRESS")
     private String address;
 
-    @Column(name = "ACTIVE_CODE")
-    private String activeCode;
-
     @Column(name = "GENDER")
     private Boolean gender;
 

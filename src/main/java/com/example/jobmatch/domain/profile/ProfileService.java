@@ -1,6 +1,7 @@
 package com.example.jobmatch.domain.profile;
 
 import com.example.jobmatch.auth.Upload;
+import com.example.jobmatch.domain.profile.dto.response.ProfileResponse;
 import com.example.jobmatch.entity.ProfileEntity;
 import com.example.jobmatch.entity.UserEntity;
 import com.example.jobmatch.domain.profile.dto.request.ProfileRequest;
@@ -79,13 +80,51 @@ public class ProfileService {
 
     public Respon update(Principal principal, ProfileRequest request) {
         try {
-            ProfileEntity profileEntity;
-            if (principal == null) {
-                profileEntity = userRepo.findByEmail(RegisterSeeder.email).getProfileEntity();
-            }else {
-                profileEntity = userRepo.findByEmail(principal.getName()).getProfileEntity();
+            UserEntity userEntity = userRepo.findByEmail(principal.getName());
+            ProfileEntity profileEntity = userEntity.getProfileEntity();
+            if (request.getName() != null && !request.getName().isEmpty()) {
+                userEntity.setName(request.getName());
             }
-            modelMapper.map(request, profileEntity);
+            if (request.getPhone() != null && !request.getPhone().isEmpty()) {
+                userEntity.setPhone(request.getPhone());
+            }
+            if (request.getAddress() != null && !request.getAddress().isEmpty()) {
+                userEntity.setAddress(request.getAddress());
+            }
+            if (request.getGender() != null) {
+                userEntity.setGender(request.getGender());
+            }
+            if (request.getDob() != null) {
+                userEntity.setDob(request.getDob());
+            }
+            if (request.getAvatar() != null){
+                String newNameFileDescription = upload.createImages(request.getAvatar(), this.root.toString());
+                userEntity.setAvatar(host + newNameFileDescription);
+            }if (request.getEducation() != null && !request.getEducation().isEmpty()) {
+                profileEntity.setEducation(request.getEducation());
+            }
+
+            if (request.getWorkExperience() != null && !request.getWorkExperience().isEmpty()) {
+                profileEntity.setWorkExperience(request.getWorkExperience());
+            }
+
+            if (request.getDescription() != null && !request.getDescription().isEmpty()) {
+                profileEntity.setDescription(request.getDescription());
+            }
+
+            if (request.getLanguage() != null && !request.getLanguage().isEmpty()) {
+                profileEntity.setLanguage(request.getLanguage());
+            }
+
+            if (request.getAppreciation() != null && !request.getAppreciation().isEmpty()) {
+                profileEntity.setAppreciation(request.getAppreciation());
+            }
+
+            if (request.getResume() != null && !request.getResume().isEmpty()) {
+                profileEntity.setResume(request.getResume());
+            }
+
+            userRepo.save(userEntity);
             profileRepo.save(profileEntity);
             return new Respon<>("Chỉnh sửa thông tin profile thành công");
         } catch (Exception e) {
@@ -95,8 +134,16 @@ public class ProfileService {
 
     public Respon get(ProfileRequest request) {
         try {
-            ProfileEntity profileEntity = userRepo.findByEmail(request.getEmail()).getProfileEntity();
-            return new Respon<>("Lấy thông tin thành công", profileEntity);
+            UserEntity userEntity = userRepo.findByEmail(request.getEmail());
+            ProfileResponse profileResponse = new ProfileResponse();
+            profileResponse.setEmail(userEntity.getEmail());
+            profileResponse.setName(userEntity.getName());
+            profileResponse.setAddress(userEntity.getAddress());
+            profileResponse.setGender(userEntity.getGender());
+            profileResponse.setPhone(userEntity.getPhone());
+            profileResponse.setAvatar(userEntity.getAvatar());
+            profileResponse.setProfileEntity(userEntity.getProfileEntity());
+            return new Respon<>("Lấy thông tin thành công", profileResponse);
         } catch (Exception e) {
             return new Respon<>("Lấy thông tin thất bại");
         }

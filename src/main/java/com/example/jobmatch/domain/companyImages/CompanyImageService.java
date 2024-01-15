@@ -64,4 +64,18 @@ public class CompanyImageService {
             return new Respon<>("Upload thất bại", e);
         }
     }
+
+    public Respon updateImages(Integer companyImageId, CompanyImageRequest companyImageRequest) {
+        try {
+            CompanyImageEntity companyImageEntity = companyImagesRepo.findById(companyImageId).get();
+            for (MultipartFile files : companyImageRequest.getFile()) {
+                String newNameFile = upload.createImages(files, this.root.toString());
+                companyImageEntity.setLink(host + newNameFile);
+                companyImagesRepo.save(companyImageEntity);
+            }
+            return new Respon<>("Upload thành công");
+        }catch (Exception e){
+            return new Respon<>("Upload thất bại", e);
+        }
+    }
 }

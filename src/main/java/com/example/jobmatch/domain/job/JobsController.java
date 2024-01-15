@@ -27,13 +27,13 @@ public class JobsController {
 
     @GetMapping("/delete/{jobId}")
     @PreAuthorize("hasAnyRole('EMPLOYER','ADMIN')")
-    public ResponseEntity delete( @PathVariable("jobId") Integer jobId) {
+    public ResponseEntity delete(@PathVariable("jobId") Integer jobId) {
         return ResponseEntity.ok(jobsService.deleteJob(jobId));
     }
 
     @PostMapping("/update/{jobId}")
     @PreAuthorize("hasAnyRole('EMPLOYER','ADMIN')")
-    public ResponseEntity update( @PathVariable("jobId") Integer jobId, @ModelAttribute CreateJobsRequest request) {
+    public ResponseEntity update(@PathVariable("jobId") Integer jobId, @ModelAttribute CreateJobsRequest request) {
         return ResponseEntity.ok(jobsService.updateJob(jobId, request));
     }
 
@@ -47,6 +47,7 @@ public class JobsController {
     public ResponseEntity getByTitle(@PathVariable String title) {
         return ResponseEntity.ok(jobsService.getByTitle(title));
     }
+
     @GetMapping("/getJobApplyByUser")
     @PreAuthorize("hasAnyRole('JOB_SEEKER','ADMIN')")
     public ResponseEntity getJobApplyByUser(Principal principal) {
