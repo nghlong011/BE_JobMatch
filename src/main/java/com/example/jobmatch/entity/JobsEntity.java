@@ -58,7 +58,7 @@ public class JobsEntity {
     @OneToMany(mappedBy = "jobsEntity", cascade = CascadeType.ALL)
     private List<JobApplicationEntity> jobApplicationEntities = new ArrayList<>();
 
-    @OneToMany(mappedBy = "jobsEntity", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "jobsEntity", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<JobImageEntity> jobImageEntities = new ArrayList<>();
 
 }

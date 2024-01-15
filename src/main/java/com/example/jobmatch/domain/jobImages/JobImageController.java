@@ -22,4 +22,10 @@ public class JobImageController {
     public ResponseEntity update(@PathVariable("jobImageId") Integer jobImageId, @ModelAttribute JobImagesRequest jobImagesRequest) {
         return ResponseEntity.ok(jobImageService.updateImages(jobImageId, jobImagesRequest));
     }
+
+    @GetMapping("/delete/{jobImageId}")
+    @PreAuthorize("hasAnyRole('EMPLOYER','ADMIN')")
+    public ResponseEntity update(@PathVariable("jobImageId") Integer jobImageId) {
+        return ResponseEntity.ok(jobImageService.deleteImages(jobImageId));
+    }
 }

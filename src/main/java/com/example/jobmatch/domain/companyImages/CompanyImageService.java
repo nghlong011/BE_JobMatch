@@ -34,24 +34,9 @@ public class CompanyImageService {
         return os.startsWith("Windows");
     }
 
-    private CompanyImageService() {
-        root = Paths.get(isWindows() ? UPLOAD_WIN : UPLOAD_LINUX);
-    }
-
-    @PostConstruct
-    public void init() {
-        try {
-            boolean isDirectory = Files.isDirectory(this.root);
-            if (!isDirectory) {
-                Files.createDirectories(root);
-            }
-        } catch (Exception e) {
-            throw new RuntimeException("Could not initialize folder for upload!");
-        }
-    }
-
     public Respon createImages(Principal principal, CompanyImageRequest companyImageRequest) {
         try {
+            this.root = Paths.get(isWindows() ? UPLOAD_WIN : UPLOAD_LINUX);
             for (MultipartFile files : companyImageRequest.getFile()) {
                 String newNameFile = upload.createImages(files, this.root.toString());
                 CompanyImageEntity companyImageEntity = new CompanyImageEntity();
@@ -60,22 +45,32 @@ public class CompanyImageService {
                 companyImagesRepo.save(companyImageEntity);
             }
             return new Respon<>("Upload thành công");
-        }catch (Exception e){
+        } catch (Exception e) {
             return new Respon<>("Upload thất bại", e);
         }
     }
 
     public Respon updateImages(Integer companyImageId, CompanyImageRequest companyImageRequest) {
         try {
+            this.root = Paths.get(isWindows() ? UPLOAD_WIN : UPLOAD_LINUX);
             CompanyImageEntity companyImageEntity = companyImagesRepo.findById(companyImageId).get();
             for (MultipartFile files : companyImageRequest.getFile()) {
                 String newNameFile = upload.createImages(files, this.root.toString());
                 companyImageEntity.setLink(host + newNameFile);
                 companyImagesRepo.save(companyImageEntity);
             }
-            return new Respon<>("Upload thành công");
-        }catch (Exception e){
-            return new Respon<>("Upload thất bại", e);
+            return new Respon<>("Update image company thành công");
+        } catch (Exception e) {
+            return new Respon<>("Update image company thất bại", e);
+        }
+    }
+
+    public Respon deleteImages(Integer companyImageId) {
+        try {
+            companyImagesRepo.deleteById(companyImageId);
+            return new Respon<>("delete image company thành công");
+        } catch (Exception e) {
+            return new Respon<>("delete image company thất bại", e);
         }
     }
 }

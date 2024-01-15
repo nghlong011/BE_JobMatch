@@ -9,14 +9,12 @@ import com.example.jobmatch.entity.*;
 import com.example.jobmatch.domain.job.dto.request.CreateJobsRequest;
 import com.example.jobmatch.domain.user.UserRepo;
 import com.example.jobmatch.respon.Respon;
-import jakarta.annotation.PostConstruct;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.security.Principal;
@@ -62,9 +60,9 @@ public class JobsService {
             companyEntity = userRepo.findByEmail(principal.getName()).getCompanyEntity();
             jobsEntity.setCompanyEntity(companyEntity);
             List<CategoryEntity> categoryEntityList = new ArrayList<>();
-            if (request.getCategoryId() != null){
+            if (request.getCategoryId() != null) {
                 CategoryEntity categoryEntity = categoryRepository.findById(request.getCategoryId()).get();
-                if (categoryEntity != null){
+                if (categoryEntity != null) {
                     List<JobsEntity> jobsEntityList = new ArrayList<>();
                     jobsEntityList.add(jobsEntity);
                     categoryEntity.setJobsEntities(jobsEntityList);
@@ -72,10 +70,10 @@ public class JobsService {
                     jobsEntity.setCategoryEntities(categoryEntityList);
                 }
             }
-            if (request.getDescription() != null){
+            if (request.getDescription() != null) {
                 String newNameFileDescription = upload.createImages(request.getDescription(), root.toString());
                 jobsEntity.setDescription(host + newNameFileDescription);
-            }else {
+            } else {
                 jobsEntity.setDescription(null);
             }
             jobsRepo.save(jobsEntity);
@@ -91,7 +89,7 @@ public class JobsService {
             jobsRepo.deleteByJobId(jobId);
             return new Respon<>("Xoá job thành công");
         } catch (Exception e) {
-            return new Respon<>("Xoá job thất bại " + e);
+            return new Respon<>("Xoá job thất bại ", e);
         }
     }
 
@@ -103,7 +101,7 @@ public class JobsService {
             jobsRepo.save(jobsEntity);
             return new Respon<>("Chỉnh sửa job thành công");
         } catch (Exception e) {
-            return new Respon<>("Chỉnh sửa job thất bại");
+            return new Respon<>("Chỉnh sửa job thất bại", e);
         }
     }
 
@@ -112,7 +110,7 @@ public class JobsService {
             List<JobsEntity> listJob = userRepo.findByEmail(principal.getName()).getCompanyEntity().getJobsEntity();
             return new Respon<>("Lấy thông tin job thành công", listJob);
         } catch (Exception e) {
-            return new Respon<>("Lấy thông tin job thất bại");
+            return new Respon<>("Lấy thông tin job thất bại", e);
         }
     }
 
@@ -122,7 +120,7 @@ public class JobsService {
             listJob.get(0).getCompanyEntity();
             return new Respon<>("Lấy thông tin job thành công", listJob);
         } catch (Exception e) {
-            return new Respon<>("Lấy thông tin job thất bại");
+            return new Respon<>("Lấy thông tin job thất bại", e);
         }
     }
 

@@ -32,6 +32,6 @@ public class CompanyEntity {
     @OneToMany(mappedBy = "companyEntity", cascade = CascadeType.ALL)
     private List<JobsEntity> JobsEntity = new ArrayList<>();
 
-    @OneToMany(mappedBy = "companyEntity", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "companyEntity", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CompanyImageEntity> companyImageEntityList = new ArrayList<>();
 }

@@ -19,7 +19,7 @@ public class JobImageEntity {
     private String link;
 
     @JsonIgnore
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "JOB_ID")
     private JobsEntity jobsEntity;
 }

@@ -4,13 +4,12 @@ import com.example.jobmatch.auth.Upload;
 import com.example.jobmatch.entity.JobImageEntity;
 import com.example.jobmatch.domain.job.JobsRepo;
 import com.example.jobmatch.respon.Respon;
-import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
@@ -34,24 +33,9 @@ public class JobImageService {
         return os.startsWith("Windows");
     }
 
-    private JobImageService() {
-        root = Paths.get(isWindows() ? UPLOAD_WIN : UPLOAD_LINUX);
-    }
-
-    @PostConstruct
-    public void init() {
-        try {
-            boolean isDirectory = Files.isDirectory(this.root);
-            if (!isDirectory) {
-                Files.createDirectories(root);
-            }
-        } catch (Exception e) {
-            throw new RuntimeException("Could not initialize folder for upload!");
-        }
-    }
-
     public Respon createImages(JobImagesRequest jobImagesRequest) {
         try {
+            this.root = Paths.get(isWindows() ? UPLOAD_WIN : UPLOAD_LINUX);
             for (MultipartFile files : jobImagesRequest.getFile()) {
                 String newNameFile = upload.createImages(files, this.root.toString());
                 JobImageEntity jobImageEntity = new JobImageEntity();
@@ -67,6 +51,7 @@ public class JobImageService {
 
     public Respon updateImages(Integer jobImageId, JobImagesRequest jobImagesRequest) {
         try {
+            this.root = Paths.get(isWindows() ? UPLOAD_WIN : UPLOAD_LINUX);
             JobImageEntity jobImageEntity = jobImagesRepo.findById(jobImageId).get();
             for (MultipartFile files : jobImagesRequest.getFile()) {
                 String newNameFile = upload.createImages(files, this.root.toString());
@@ -76,6 +61,16 @@ public class JobImageService {
             return new Respon<String>("Update image job thành công");
         } catch (Exception e) {
             return new Respon<String>("Update image job thất bại");
+        }
+    }
+
+    @Transactional
+    public Respon deleteImages(Integer jobImageId) {
+        try {
+            jobImagesRepo.deleteByJobImageId(jobImageId);
+            return new Respon<String>("Delete image job thành công");
+        } catch (Exception e) {
+            return new Respon<String>("Delete image job thất bại");
         }
     }
 }

@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface JobImagesRepo extends JpaRepository<JobImageEntity, Integer> {
+    void deleteByJobImageId(Integer jobImageId);
 }

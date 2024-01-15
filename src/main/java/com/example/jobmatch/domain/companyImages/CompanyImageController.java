@@ -24,4 +24,10 @@ public class CompanyImageController {
     public ResponseEntity update(@PathVariable("companyImageId") Integer companyImageId, @ModelAttribute CompanyImageRequest companyImageRequest) {
         return ResponseEntity.ok(companyImageService.updateImages(companyImageId, companyImageRequest));
     }
+
+    @GetMapping("/delete/{companyImageId}")
+    @PreAuthorize("hasAnyRole('EMPLOYER','ADMIN')")
+    public ResponseEntity update(@PathVariable("companyImageId") Integer companyImageId) {
+        return ResponseEntity.ok(companyImageService.deleteImages(companyImageId));
+    }
 }
