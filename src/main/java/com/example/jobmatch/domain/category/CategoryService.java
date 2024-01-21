@@ -94,4 +94,14 @@ public class CategoryService {
             return new Respon<>("Lấy thông tin category thất bại");
         }
     }
+
+
+    public Respon getAll() {
+        try {
+            List<CategoryEntity> categoryEntity = categoryRepository.findAll();
+            return new Respon<>("Lấy danh sách category thành công", categoryEntity);
+        } catch (Exception e) {
+            return new Respon<>("Lấy danh sách category thất bại " + e);
+        }
+    }
 }

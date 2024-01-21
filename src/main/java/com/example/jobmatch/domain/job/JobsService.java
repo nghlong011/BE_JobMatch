@@ -86,6 +86,7 @@ public class JobsService {
     @Transactional
     public Respon deleteJob(Integer jobId) {
         try {
+            jobsRepo.deleteJobsCategoriesByCategoryId(jobId);
             jobsRepo.deleteByJobId(jobId);
             return new Respon<>("Xoá job thành công");
         } catch (Exception e) {
@@ -98,6 +99,12 @@ public class JobsService {
             this.root = Paths.get(isWindows() ? UPLOAD_WIN : UPLOAD_LINUX);
             JobsEntity jobsEntity = jobsRepo.findById(jobId).get();
             modelMapper.map(request, jobsEntity);
+            if (request.getDescription() != null) {
+                String newNameFileDescription = upload.createImages(request.getDescription(), root.toString());
+                jobsEntity.setDescription(host + newNameFileDescription);
+            } else {
+                jobsEntity.setDescription(null);
+            }
             jobsRepo.save(jobsEntity);
             return new Respon<>("Chỉnh sửa job thành công");
         } catch (Exception e) {

@@ -69,7 +69,7 @@ public class JobApplicationService {
             UserEntity userEntity = userRepo.findByEmail(principal.getName());
             JobsEntity jobsEntity = jobsRepo.findById(jobApplicationRequest.getJobId()).get();
 
-            if (!jobAppRepo.existsByJobsEntityAndAndUserEntity(jobsEntity, userEntity)){
+            if (!jobAppRepo.existsByJobsEntityAndAndUserEntity(jobsEntity, userEntity)) {
                 JobApplicationEntity jobApplicationEntity = new JobApplicationEntity();
                 modelMapper.map(jobApplicationRequest, jobApplicationEntity);
                 String newNameFile = upload.createImages(jobApplicationRequest.getContent(), this.root.toString());
@@ -93,7 +93,7 @@ public class JobApplicationService {
         try {
             List<UserEntity> listUser = userRepo.findUserByJobId(jobId);
             List<UserResponse> response = new ArrayList<>();
-            for (UserEntity userEntity : listUser){
+            for (UserEntity userEntity : listUser) {
                 UserResponse entity = new UserResponse(userEntity.getUserId(), userEntity.getEmail(), userEntity.getName(), userEntity.getPhone(),
                         userEntity.getAddress(), userEntity.getGender(), userEntity.getDob(), userEntity.getAvatar());
                 response.add(entity);
@@ -107,9 +107,14 @@ public class JobApplicationService {
     public Respon update(JobApplicationRequest jobApplicationRequest) {
         try {
             JobApplicationEntity applicationEntity = jobAppRepo.findById(jobApplicationRequest.getJobAppId()).get();
-            applicationEntity.setStatus(jobApplicationRequest.getStatus());
-            jobAppRepo.save(applicationEntity);
-            return new Respon<>("Cập nhật trạng thái thành công");
+            JobsEntity jobsEntity = applicationEntity.getJobsEntity();
+            Integer countStatusIs2 = jobAppRepo.countAllByStatusAndAndJobsEntity(2,jobsEntity);
+            if (countStatusIs2 <= jobsEntity.getNumberRecruit()) {
+                applicationEntity.setStatus(jobApplicationRequest.getStatus());
+                jobAppRepo.save(applicationEntity);
+                return new Respon<>("Cập nhật trạng thái thành công");
+            }
+            return new Respon<>("Cập nhật trạng thái thất bại");
         } catch (Exception e) {
             return new Respon<>("Cập nhật trạng thái thất bại");
         }

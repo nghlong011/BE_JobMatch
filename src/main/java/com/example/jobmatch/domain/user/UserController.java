@@ -44,4 +44,16 @@ public class UserController {
     public ResponseEntity getUserByJobAppId(@RequestBody GetUserRequest getUserRequest) {
         return ResponseEntity.ok(userService.getById(getUserRequest));
     }
+
+    @GetMapping("/del/{userId}")
+    @PreAuthorize("hasAnyRole('ADMIN')")
+    public ResponseEntity delete(@PathVariable("userId") Integer userId) {
+        return ResponseEntity.ok(userService.delete(userId));
+    }
+
+    @GetMapping("/getAll")
+    @PreAuthorize("hasAnyRole('ADMIN')")
+    public ResponseEntity getAll() {
+        return ResponseEntity.ok(userService.getAll());
+    }
 }

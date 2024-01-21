@@ -26,6 +26,7 @@ import org.springframework.security.web.authentication.logout.SecurityContextLog
 import org.springframework.stereotype.Component;
 
 import java.security.Principal;
+import java.util.List;
 
 @Component
 public class UserService {
@@ -119,6 +120,26 @@ public class UserService {
             return new Respon<>("Tìm kiếm user thành công", userEntity);
         } catch (Exception e) {
             return new Respon<>("Đổi mật khẩu thất bại");
+        }
+    }
+
+    public Respon delete(Integer userId) {
+        try {
+            UserEntity userEntity = userRepo.findById(userId).get();
+            userEntity.setRoleEntity(null);
+            userRepo.save(userEntity);
+            return new Respon<>("Xoá user thành công");
+        } catch (Exception e) {
+            return new Respon<>("Xoá user thất bại");
+        }
+    }
+
+    public Respon getAll() {
+        try {
+            List<UserEntity> userEntity = userRepo.findAllUser();
+            return new Respon<>("Get user thành công", userEntity);
+        } catch (Exception e) {
+            return new Respon<>("Get user thất bại");
         }
     }
 }

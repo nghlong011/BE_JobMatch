@@ -41,7 +41,8 @@ public class SpringSecurityConfig {
                                 "company/getCompanyByTitle/**",
                                 "category/get/**",
                                 "job/getByTitle/**",
-                                "job/get"
+                                "job/get",
+                                "category/getAll"
                         )
                         .permitAll()
                         .anyRequest()

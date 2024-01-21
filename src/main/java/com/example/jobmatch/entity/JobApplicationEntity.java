@@ -29,5 +29,8 @@ public class JobApplicationEntity {
     private String content;
 
     @Column(name = "STATUS")
-    private String status;
+    private Integer status;
+
+    @Column(name = "NAME")
+    private String name;
 }

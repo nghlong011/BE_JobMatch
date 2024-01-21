@@ -10,5 +10,6 @@ public class JobApplicationRequest {
     private Integer jobAppId;
     private Integer jobId;
     private MultipartFile content;
-    private String status;
+    private Integer status;
+    private String name;
 }

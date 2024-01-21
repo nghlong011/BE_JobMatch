@@ -34,4 +34,9 @@ public class CategoryController {
     public ResponseEntity get(@PathVariable Integer categoryId) {
         return ResponseEntity.ok(categoryService.getCategory(categoryId));
     }
+
+    @GetMapping("/getAll")
+    public ResponseEntity getAll() {
+        return ResponseEntity.ok(categoryService.getAll());
+    }
 }

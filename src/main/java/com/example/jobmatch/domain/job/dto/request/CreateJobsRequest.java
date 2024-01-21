@@ -16,4 +16,6 @@ public class CreateJobsRequest {
     private Date expirationDate;
     private String workExperience;
     private Integer categoryId;
+    private Integer status;
+    private Integer numberRecruit;
 }

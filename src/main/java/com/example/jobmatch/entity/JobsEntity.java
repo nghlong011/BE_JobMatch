@@ -47,6 +47,12 @@ public class JobsEntity {
     @Column(name = "WORK_EXPERIENCE")
     private String workExperience;
 
+    @Column(name = "NUMBER_RECRUIT")
+    private Integer numberRecruit;
+
+    @Column(name = "STATUS")
+    private Integer status;
+
     @JsonIgnore
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "JOBS_CATEGORY",
